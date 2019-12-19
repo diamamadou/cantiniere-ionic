@@ -20,6 +20,18 @@ const routes: Routes = [
     path: 'todays-menu',
     loadChildren: () => import('./todays-menu/todays-menu.module').then( m => m.TodaysMenuPageModule)
   },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'register',
+    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
+    path: 'order-detail',
+    loadChildren: () => import('./order-detail/order-detail.module').then( m => m.OrderDetailPageModule)
+  },
 ];
 
 @NgModule({
