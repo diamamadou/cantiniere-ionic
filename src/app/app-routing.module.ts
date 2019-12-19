@@ -20,6 +20,10 @@ const routes: Routes = [
     path: 'todays-menu',
     loadChildren: () => import('./todays-menu/todays-menu.module').then( m => m.TodaysMenuPageModule)
   },
+  {
+    path: 'detail-menu-jour/:id',
+    loadChildren: () => import('./detail-menu-jour/detail-menu-jour.module').then( m => m.DetailMenuJourPageModule)
+  },
 ];
 
 @NgModule({
