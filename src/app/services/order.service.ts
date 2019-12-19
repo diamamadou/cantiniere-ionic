@@ -80,7 +80,6 @@ export class OrderService {
     const dateDebut = 'beginDate=' + beginDate;
     const dateFin = 'endDate=' + endDate;
     const statu = 'status=' + status;
-    // const dateStatus = {beginDate: '02-03-2019', endDate: '12-06-2019', status: 1};
     const url = 'http://localhost:8080/lunchtime/order/findallbetweendateinstatus?' + dateDebut + '&' + dateFin + '&' + statu;
     return this.http.get(url)
         .pipe(

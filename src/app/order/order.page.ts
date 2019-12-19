@@ -22,8 +22,8 @@ export class OrderPage implements OnInit {
     // this.computePrice(this., -1);
     // this.deliveryAndPay(5, -1);
     // this.getOrder(2);
-    // this.findAll();
-    this.findAllBetweenInStatus('02-03-2019', '12-06-2019', 0);
+     this.findAll();
+    // this.findAllBetweenInStatus('02-03-2019', '12-06-2019', 0);
   }
 
   addOrder() {
@@ -86,7 +86,8 @@ export class OrderPage implements OnInit {
   }
 
   findAllBetweenInStatus(beginDate, endDate, status) {
-    return this.orderService.findAllBetweenInStatus(beginDate, endDate, status)
-        .subscribe(data => {console.log(data); console.log(data); });
+     this.orderService.findAllBetweenInStatus(beginDate, endDate, status)
+        .subscribe(data => {console.log(data); console.log(data); },
+            (err) => { console.log('Vous n\'ètes pas connectés / Vous n\ètes pas cantinière'); });
   }
 }
