@@ -21,6 +21,10 @@ const routes: Routes = [
     loadChildren: () => import('./todays-menu/todays-menu.module').then( m => m.TodaysMenuPageModule)
   },
   {
+
+    path: 'detail-menu-jour/:id',
+    loadChildren: () => import('./detail-menu-jour/detail-menu-jour.module').then( m => m.DetailMenuJourPageModule)
+
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
@@ -31,6 +35,7 @@ const routes: Routes = [
   {
     path: 'order-detail',
     loadChildren: () => import('./order-detail/order-detail.module').then( m => m.OrderDetailPageModule)
+
   },
 ];
 
