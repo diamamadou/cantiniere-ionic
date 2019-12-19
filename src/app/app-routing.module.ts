@@ -24,7 +24,8 @@ const routes: Routes = [
 
     path: 'detail-menu-jour/:id',
     loadChildren: () => import('./detail-menu-jour/detail-menu-jour.module').then( m => m.DetailMenuJourPageModule)
-
+  },
+  {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
