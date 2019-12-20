@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {MenuService} from '../services/menu.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import {MealService} from '../services/meal.service';
 import {AuthService} from '../services/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-meal',
@@ -10,45 +10,41 @@ import {AuthService} from '../services/auth.service';
 })
 export class MealPage implements OnInit {
 
-  todayMenu;
-  todayMeal = [];
-  key;
-  errors;
+  constructor(private mealService: MealService, private authService: AuthService, private router: Router) { }
+  todayMeal;
   userInfo;
-
-  constructor(private menuService: MenuService, private route: ActivatedRoute, private router: Router, private authService: AuthService) { 
-    this.route.params
-    .subscribe(params => this.key= params);
-  }
-
   ngOnInit() {
     this.getAllForToday();
   }
-
   getAllForToday() {
-    this.menuService.findAllAvailableForToday()
-      .subscribe(data => {this.todayMenu = data; console.log('Les menus du jour sont : ');
+    this.mealService.findAllAvailableForToday()
+      .subscribe(data => {this.todayMeal = data; console.log('Les plats du jour sont : ');
                           data.forEach(element => {
-        // this.todayMeal = element.meals;
-        console.log(element.label + '  Prix: ' + element.priceDF);
-      })
-      ; });
-    this.menuService.findAllAvailableForToday()
+          // this.todayMeal = element.meals;
+          console.log(element.label + '  Prix: ' + element.priceDF);
+        })
+        ; });
+    this.mealService.findAllAvailableForToday()
       .subscribe(data => this.todayMeal = data);
+
     if (this.authService.getToken() !== null) {
       this.userInfo = this.authService.getUserInfo(this.authService.getToken());
       console.log('Bienvenue ' + this.userInfo.user.name + ' ' + this.userInfo.user.firstname + '');
     }
   }
 
-  menuDetail(id) {
-    this.menuService.findAllAvailableForToday()
+  logout() {
+    this.authService.logOut();
+    this.router.navigate(['/platDuJour']);
+    console.log('vous ètes déconnectés !');
+  }
 
-      .subscribe(data => {this.todayMeal = data[id]; // console.log(data[id]);
-      },
-      error => {this.errors = error; },
-      () => {this.router.navigate(['/detail-menu-jour/' + id]); }
-      );
+  login() {
+    this.router.navigate(['/login']);
+  }
+
+  register() {
+    this.router.navigate(['/register']);
   }
 
 }
