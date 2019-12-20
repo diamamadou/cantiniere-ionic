@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuService } from '../services/menu.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { WeekDay } from '@angular/common';
 
 @Component({
   selector: 'app-menu',
@@ -11,12 +12,6 @@ import { AuthService } from '../services/auth.service';
 export class MenuPage implements OnInit {
 
   todayMenu;
-  deleteMenu = [];
-  addMenu;
-  updateMenu
-  findAllMenu;
-  findMenu;
-  findMenuForWeeks;
   todayMeal = [];
   key;
   errors;
@@ -59,46 +54,58 @@ export class MenuPage implements OnInit {
         () => { this.router.navigate(['/detail-menu-jour/' + id]); }
       );
   }
+  deleteMenu(menuId) {
+    this.menuService.deleteMenu(menuId)
+      .subscribe(data => { });
+    this.userInfo = this.authService.getUserInfo(this.authService.getToken());
+  }
+
+
+  addMenu() {
+    this.menuService.addMenu()
+      .subscribe(data => this.addMenu = data);
+    this.userInfo = this.authService.getUserInfo(this.authService.getToken());
+  }
+
+
+  updateMenu(menuId) {
+    this.menuService.updateMenu(menuId)
+      .subscribe(data => this.updateMenu = data);
+    this.userInfo = this.authService.getUserInfo(this.authService.getToken());
+
+  }
+  
+  findAllMenu() {
+    this.menuService.findAll()
+      .subscribe(data => this.findAllMenu = data);
+    this.userInfo = this.authService.getUserInfo(this.authService.getToken());
+
+  }
+
+  findMenu(menuId) {
+    this.menuService.find(menuId)
+      .subscribe(data => this.findMenu = data);
+    this.userInfo = this.authService.getUserInfo(this.authService.getToken());
+
+  }
+  findforweek(WeekDay){
+  this.menuService.findAllavailableForWeek(WeekDay)
+  .subscribe(data => this.findforweek = data);
+   this.userInfo = this.authService.getUserInfo(this.authService.getToken());
+   }
+  
+
 
 }
 
-this.menuService.deleteMenu()
-  .subscribe(data => this.deleteMenu = data);
-if (this.authService.getToken() !== null) {
-  this.userInfo = this.authService.getUserInfo(this.authService.getToken());
-  console.log('Bienvenue ' + this.userInfo.user.name + ' ' + this.userInfo.user.firstname + '');
-}
 
 
-this.menuService.addMenu()
-  .subscribe(data => this.addMenu = data);
-if (this.authService.getToken() !== null) {
-  this.userInfo = this.authService.getUserInfo(this.authService.getToken());
-  console.log('Bienvenue ' + this.userInfo.user.name + ' ' + this.userInfo.user.firstname + '');
-}
 
 
-this.menuService.updateMenu()
-  .subscribe(data => this.updateMenu = data);
-if (this.authService.getToken() !== null) {
-  this.userInfo = this.authService.getUserInfo(this.authService.getToken());
-  console.log('Update ' + this.userInfo.user.name + ' ' + this.userInfo.user.firstname + '');
-}
 
 
-this.menuService.deleteMenu()
-      .subscribe(data => this.deleteMenu = data);
-    if (this.authService.getToken() !== null) {
-      this.userInfo = this.authService.getUserInfo(this.authService.getToken());
-      console.log('delete' + this.userInfo.user.name + ' ' + this.userInfo.user.firstname + '');
-    }
 
-this.menuService.findAllMenu()
-.subscribe(data => this.findAllMenu = data);
-if (this.authService.getToken() !== null) {
-this.userInfo = this.authService.getUserInfo(this.authService.getToken());
-console.log('findAll ' + this.userInfo.user.name + ' ' + this.userInfo.user.firstname + '');
-}
+
 
 
 /*this.menuService.findAllMenu()
