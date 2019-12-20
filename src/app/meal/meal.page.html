@@ -19,9 +19,6 @@
   <ion-list>
     <ion-item *ngFor="let plat of meals | keyvalue">
       <div class="float-left item-note" slot="end">
-        {{ plat.key }}
-      </div>
-      <div class="item-note" slot="end">
         {{ plat.value.label }}
       </div>
       <div class="item-note" slot="end">
