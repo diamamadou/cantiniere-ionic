@@ -4,29 +4,64 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Plats du jour
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
-    <div class="jumbotron jumbotron-fluid" *ngIf="userInfo !== undefined">
-        <h3 class="w-100">Bonjour {{userInfo.user.firstname}} {{userInfo.user.name}}</h3>
-        <p class="">Bienvenue !</p>
-        <button class="btn btn-dark ml-3" (click)="logout()">Se déconnecter</button>
+  <ion-list>
+    <ion-item *ngFor="let plat of meals | keyvalue">
+      <div class="item-note" slot="end">
+        {{ plat.key }}
       </div>
-      <div class="jumbotron jumbotron-fluid" *ngIf="userInfo === undefined">
-        <p class="">Bienvenue !</p>
-        <button class="btn btn-dark" (click)="login()">Se connecter</button>
-        <button class="btn btn-dark ml-4" (click)="register()">Se connecter</button>
+      <div class="item-note" slot="end">
+        {{ plat.value.label }}
       </div>
-      
-    <ion-list>
-
-          <ion-item *ngFor="let plat of todayMeal" class="d-flex align-content-center p-1">>
-              <ion-item></ion-item>
-              <h6>{{plat.label}}</h6> 
-              <ion-item>
-                  <p class="small">  <img src="http://localhost:8080/lunchtime/{{plat.image}}" /> </p>
-                  <ion-item></ion-item>
-                  <ion-button class="w-25 h-25 ml-1">Prix: {{plat.priceDF}}</ion-button>
-              </ion-item>          
-          </ion-item>
-
-    </ion-list>
+      <div class="item-note" slot="end">
+        <img src="http://localhost:8080/lunchtime/{{plat.value.image}}" alt="">
+      </div>
+    </ion-item>
+  </ion-list>
+  <!--
+    <div *ngIf="selectedItem" padding>
+      You navigated here from <b>{{selectedItem.title }}</b>
+    </div>
+  -->
 </ion-content>
+
+
+<!--<ion-content>
+  <div class="jumbotron jumbotron-fluid" *ngIf="userInfo !== undefined">
+    <h3 class="w-100">Bonjour {{userInfo.user.firstname}} {{userInfo.user.name}}</h3>
+    <p class="">Bienvenue !</p>
+    <button class="btn btn-dark ml-3" (click)="logout()">Se déconnecter</button>
+  </div>
+  <div class="jumbotron jumbotron-fluid" *ngIf="userInfo === undefined">
+    <p class="">Bienvenue !</p>
+    <button class="btn btn-dark" (click)="login()">Se connecter</button>
+    <button class="btn btn-dark ml-4" (click)="register()">Se connecter</button>
+  </div>
+
+
+<ion-list>
+
+  <ion-item *ngFor="let plat of todayMeal" class="d-flex align-content-center p-1">>
+    <ion-item></ion-item>
+    <h6>{{plat.label}}</h6>
+    <ion-item>
+      <p class="small"> <img src="http://localhost:8080/lunchtime/{{plat.image}}" /> </p>
+      <ion-item></ion-item>
+      <ion-button class="w-25 h-25 ml-1">Prix: {{plat.priceDF}}</ion-button>
+    </ion-item>
+  </ion-item>
+
+</ion-list>
+</ion-content>
+-->
