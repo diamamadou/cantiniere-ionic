@@ -17,6 +17,9 @@
         <button class="btn btn-dark ml-4" (click)="register()">Créer un compte</button>
       </div>
       
+
+
+      
       <div class="container">
       
         <div class="row">
@@ -40,7 +43,7 @@
                     <td id="lastname{{user.id}}">{{user.name}}</td>
                     <td id="firstname{{user.id}}">{{user.firstname}}</td>
                     <td id="emai1{{user.id}}">{{user.email}}</td>
-                    <td>{{user.phone}}</td>
+                    <td>{{user.phone}}</td><ion-label></ion-label>
                     <td style="cursor: pointer;font-weight: bold;"> {{user.wallet}} € <button class="btn btn-success" id="{{user.id}}" (click)="onClick($event)">Créditer</button></td>
                     <td><button class="btn btn-danger" id="{{user.id}}" (click)="onClick2($event)">Supprimer</button></td>
                 </tr>
