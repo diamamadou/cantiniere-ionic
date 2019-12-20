@@ -24,7 +24,7 @@ export class MenuService {
 
 
   findAllavailableForWeek(weekNumber): Observable<any> {
-    const urlFindForWeek = 'http://localhost:8080/lunchtime/menu/find' +"/" +weekNumber;
+    const urlFindForWeek = 'http://localhost:8080/lunchtime/menu/findallavailableforweek'+"/" +weekNumber;
     return this.http.get(urlFindForWeek, {responseType: 'json'})
      .pipe(
        tap( menu => {
@@ -37,7 +37,7 @@ export class MenuService {
 
 
   find(menuId): Observable<any> {
-    const urlFind = 'http://localhost:8080/lunchtime/menu/find' +"/" +menuId;
+    const urlFind = 'http://localhost:8080/lunchtime/menu/find'+"/" +menuId;
     return this.http.get(urlFind, {responseType: 'json'})
      .pipe(
        tap( menu => {
