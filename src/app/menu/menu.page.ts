@@ -11,6 +11,7 @@ import { WeekDay } from '@angular/common';
 })
 export class MenuPage implements OnInit {
 
+  
   todayMenu;
   todayMeal = [];
   key;
