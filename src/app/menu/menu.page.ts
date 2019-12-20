@@ -62,7 +62,7 @@ export class MenuPage implements OnInit {
 
 }
 
-this.menuService.deleteMenu(id)
+this.menuService.deleteMenu()
   .subscribe(data => this.deleteMenu = data);
 if (this.authService.getToken() !== null) {
   this.userInfo = this.authService.getUserInfo(this.authService.getToken());
