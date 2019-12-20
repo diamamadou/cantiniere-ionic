@@ -15,7 +15,9 @@
                 <p class="small"> Description </p>
                 <ion-item></ion-item>
                 <ion-button class="float-right font-weight-bold" (click)="menuDetail(menu.key)">{{menu.value.priceDF}} €</ion-button>
-            </ion-item>
+                <ion-button class="btn -btn-danger" (click)="menuDetail(menu.key)">{{menu.delete}} </ion-button>
+            
+              </ion-item>
             
         </ion-item>
     </ion-list>
