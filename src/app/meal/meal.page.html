@@ -18,11 +18,11 @@
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let plat of meals | keyvalue">
-      <div class="float-left item-note" slot="end">
+      <div class="float-left item-note" slot="start">
         {{ plat.value.label }}
       </div>
       <div class="item-note" slot="end">
-        <ion-button class="float-right font-weight-bold" (click)="menuDetail(plat.key)">{{plat.value.priceDF}} €
+        <ion-button class="float-right font-weight-bold">{{plat.value.priceDF}} €
         </ion-button>
       </div>
       <div class="item-note" slot="end">
