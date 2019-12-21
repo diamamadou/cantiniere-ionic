@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 
@@ -9,19 +9,29 @@ import {Router} from '@angular/router';
 })
 export class LoginPage implements OnInit {
 
-  users;
-  constructor(private authService: AuthService, private router: Router) { }
+  userInfos;
+  constructor(private authService: AuthService, private router: Router) {
+
+  }
 
   ngOnInit() {
+    this.userInfos = this.authService.getUserInfo(this.authService.getToken());
+    if (this.userInfos) {
+      console.log('Vous ètes connectés en tant que ' + this.userInfos.user.name);
+    }
   }
 
   login(user) {
     this.authService.logIn(user.form.value)
-        .subscribe(users => { this.users = users; console.log(localStorage.getItem('user_token')); },
-            error => { this.router.navigate(['/todays-meal']); },
-            () => { this.router.navigate(['/meal']); }
+        .subscribe(users => { console.log('Vous ètes connectés'); },
+            error => { this.router.navigate(['/login']); },
+            () => { this.userInfos = this.authService.getUserInfo(this.authService.getToken()); }
         );
-    const   hello = this.authService.getDecodedToken(localStorage.getItem('user_token'));
-    console.log(hello);
+  }
+
+  logOut() {
+    this.authService.logOut();
+    console.log('Vous ètes déconnectés');
+    this.userInfos = null;
   }
 }
