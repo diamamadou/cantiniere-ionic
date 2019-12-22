@@ -55,7 +55,7 @@ export class TodaysMenuPage implements OnInit {
   }
   deleteMenu(menuId) {
     this.menuService.deleteMenu(menuId)
-      .subscribe(data => { });
+      .subscribe(data => {});
     this.userInfo = this.authService.getUserInfo(this.authService.getToken());
   }
 
