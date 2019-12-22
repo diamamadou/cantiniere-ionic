@@ -1,29 +1,28 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Menus du jour</ion-title>
+
+  <ion-title>Menus du jour</ion-title>
+    <ion-toolbar>
+     <ion-searchbar></ion-searchbar>
   </ion-toolbar>
+
 </ion-header>
 
 <ion-content>
-
-  <ion-list>
-      <ion-item *ngFor="let menu of todayMenu | keyvalue">
-          <h5 class="text-uppercase" >Menu du jour!</h5>
-          <ion-item></ion-item>
-          <h6>{{menu.value.label}}</h6> 
-          <ion-item>
-              <p class="small"> Description </p>
-              <ion-item></ion-item>
-              <ion-button class="float-right font-weight-bold" (click)="menuDetail(menu.key)">{{menu.value.priceDF}} €</ion-button>
-              <ion-button class="btn -btn-danger" (click)="deleteMenu(menu.id)">Supprimer</ion-button>
-          
-            </ion-item>
-          
+   
+  <ion-list size="12" size-sm>
+    <ion-item *ngFor="let menu of todayMenu | keyvalue">
+      <h5 class="text-uppercase">Menu du jour!</h5>
+      <ion-item></ion-item>
+      <h6>{{menu.value.label}}</h6>
+      <ion-item>
+        <p class="small"> Description </p>
+        <ion-item></ion-item>
+        <ion-button class="float-right font-weight-bold" (click)="menuDetail(menu.key)">{{menu.value.priceDF}}€ </ion-button>
+        <ion-button color="danger" (click)="deleteMenu(menu.id)">Supprimer</ion-button>
+        <ion-button  color="success" (click)="addMenu(menu.id)">Ajouter</ion-button>
       </ion-item>
+
+    </ion-item>
   </ion-list>
-
-
-
-
+  <ion-back-button defaultHref="menu"></ion-back-button>
 </ion-content>
-

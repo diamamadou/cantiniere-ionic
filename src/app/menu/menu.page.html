@@ -6,21 +6,22 @@
 
 <ion-content>
 
-    <ion-list>
-        <ion-item *ngFor="let menu of todayMenu | keyvalue">
-            <h5 class="text-uppercase" >Menu du jour!</h5>
-            <ion-item></ion-item>
-            <h6>{{menu.value.label}}</h6> 
-            <ion-item>
-                <p class="small"> Description </p>
-                <ion-item></ion-item>
-                <ion-button class="float-right font-weight-bold" (click)="menuDetail(menu.key)">{{menu.value.priceDF}} €</ion-button>
-                <ion-button class="btn -btn-danger" (click)="menuDetail(menu.key)">{{menu.delete}} </ion-button>
-            
-              </ion-item>
-            
-        </ion-item>
-    </ion-list>
+  <ion-list>
+    <ion-item *ngFor="let menu of todayMenu | keyvalue">
+      <h5 class="text-uppercase">Menu du jour!</h5>
+      <ion-item></ion-item>
+      <h6>{{menu.value.label}}</h6>
+      <ion-item>
+        <p class="small"> Description </p>
+        <ion-item></ion-item>
+        <ion-button class="float-right font-weight-bold" (click)="menuDetail(menu.key)">{{menu.value.priceDF}} €
+        </ion-button>
+
+
+      </ion-item>
+
+    </ion-item>
+  </ion-list>
 
 
 
