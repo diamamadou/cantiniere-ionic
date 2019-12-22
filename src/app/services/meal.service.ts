@@ -35,6 +35,14 @@ export class MealService {
       );
   }
 
+  findOneMeal(idMeal: number) {
+    return this.http.get<any>(`${environment.apiUrl}/meal/find/${idMeal}`)
+      .pipe(
+        tap(),
+        catchError(this.handleError<any>('findAllAvailableForToday')),
+      );
+  }
+
   getAllMeals(): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/meal/findall`)
       .pipe(
