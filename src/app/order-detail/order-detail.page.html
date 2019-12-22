@@ -1,9 +1,87 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>order-detail</ion-title>
+    <ion-title>Détail de la commande &#8470; {{order?.id}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
+  <ion-grid>
+    <ion-row class="ion-text-center">
+      <ion-col>
+        <ion-icon name="calendar"></ion-icon>
+        Date
+      </ion-col>
+      <ion-col>
+        <ion-icon name="pizza"></ion-icon>
+        Plats+Détails
+      </ion-col>
+      <ion-col>
+        <ion-icon name="logo-euro"></ion-icon>
+        Prix
+      </ion-col>
+      <ion-col>
+        <ion-icon name="list"></ion-icon>
+        &#8470; commande
+      </ion-col>
+    </ion-row>
+      <ng-container *ngIf="order?.menu !== undefined">
+      <ion-row class="ion-text-center">
+        <ion-col>
+          {{order?.creationDate | date }}
+        </ion-col>
+        <ion-col>
+          {{order?.menu.label}}
+        </ion-col>
+        <ion-col>
+          {{order?.menu.priceDF}} €
+        </ion-col>
+        <ion-col>
+          {{order?.id}}
+        </ion-col>
+      </ion-row>
+        <ion-row>
+          <ion-col aria-colspan="3">
+            Prix Total
+          </ion-col>
+          <ion-col>
+            {{computedPrice}} €
+          </ion-col>
+        </ion-row>
+      </ng-container>
+
+    <ng-container *ngIf="order?.quantityMeals !== undefined">
+      <ion-row class="ion-text-center">
+        <ion-col>
+          {{order?.creationDate | date }}
+        </ion-col>
+        <ion-col>
+          <p *ngFor="let meal of order?.quantityMeals">{{meal.meal.label}}</p>
+        </ion-col>
+        <ion-col>
+          <p *ngFor="let meal of order?.quantityMeals">{{meal.meal.priceDF}} €</p>
+        </ion-col>
+        <ion-col>
+          {{order?.id}}
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col aria-colspan="3">
+          Prix Total
+        </ion-col>
+        <ion-col>
+          {{computedPrice}} €
+        </ion-col>
+      </ion-row>
+      </ng-container>
+  </ion-grid>
+
+  <div class="ion-text-center">
+  <ion-title>Informations du client</ion-title>
+
+  <ion-text color="primary">Prénom: </ion-text> <ion-text class="font-italic">{{order?.user.firstname}}</ion-text><br>
+  <ion-text color="primary">Nom: </ion-text> <ion-text class="font-italic">{{order?.user.name}}</ion-text><br>
+  <ion-text color="primary">E-mail: </ion-text> <ion-text class="font-italic">{{order?.user.email}}</ion-text><br>
+  <ion-text color="primary">Porte-feuille: </ion-text> <ion-text class="font-italic">{{order?.user.wallet}} €</ion-text>
+  </div>
 </ion-content>
