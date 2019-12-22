@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MealService } from '../services/meal.service';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { IonItemSliding } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-meal',
@@ -14,6 +16,7 @@ export class MealPage implements OnInit {
   todayMeal;
   meals;
   userInfo;
+  apiUrl = environment.apiUrl;
   ngOnInit() {
     this.getAllForToday();
   }
@@ -37,7 +40,6 @@ export class MealPage implements OnInit {
           console.log('Les différents plat sont : ');
           console.table(data);
         });
-
   }
   getAllForToday() {
     this.mealsService.findAllAvailableForToday()
@@ -50,6 +52,17 @@ export class MealPage implements OnInit {
           ;
       });
 
+  }
+  ondelete(idPlat: number, slidingItem: IonItemSliding) {
+    slidingItem.close();
+    this.router.navigate(['/meal', 'edit', ':IdPlat']);
+    console.log('Plate numéro', idPlat = 13);
+
+  }
+  onEdit(idPlat: number, slidingItem: IonItemSliding) {
+    slidingItem.close();
+    this.router.navigate(['/meal', 'edit', ':IdPlat']);
+    console.log('Plate numéro', idPlat = 13);
   }
 
   // getAllForToday() {
