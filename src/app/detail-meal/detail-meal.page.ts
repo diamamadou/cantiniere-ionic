@@ -23,6 +23,7 @@ export class DetailMealPage implements OnInit {
       .subscribe(params => { this.IdPlat = params.IdPlat; console.log(params.IdPlat); });
     this.getOneMeal(this.IdPlat);
   }
+
   getOneMeal(IdPlat) {
     this.serviceMeal.findOneMeal(IdPlat)
       .subscribe(

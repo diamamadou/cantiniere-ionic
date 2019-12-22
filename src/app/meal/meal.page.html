@@ -19,18 +19,20 @@
   <ion-list>
     <ion-item-sliding *ngFor="let plat of meals | keyvalue" #slidingItem>
       <ion-item>
-        <div class="float-left item-note" slot="start">
+        <ion-thumbnail slot="start">
+          <ion-img src="{{apiUrl}}/{{plat.value.image}}" alt=""></ion-img>
+        </ion-thumbnail>
+        <div class="float-left item-note" slot="end">
           {{ plat.value.label }}
         </div>
+
         <div class="item-note" slot="end">
           <ion-button class="float-right font-weight-bold" [routerLink]="['/meal','detail',plat.value.id]">
             {{plat.value.priceDF}} €
           </ion-button>
         </div>
 
-        <ion-thumbnail slot="end">
-          <ion-img src="http://localhost:8080/lunchtime/{{plat.value.image}}" alt=""></ion-img>
-        </ion-thumbnail>
+
       </ion-item>
 
       <ion-item-options side='start'>

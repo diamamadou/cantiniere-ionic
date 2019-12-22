@@ -3,6 +3,7 @@ import { MealService } from '../services/meal.service';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { IonItemSliding } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-meal',
@@ -15,6 +16,7 @@ export class MealPage implements OnInit {
   todayMeal;
   meals;
   userInfo;
+  apiUrl = environment.apiUrl;
   ngOnInit() {
     this.getAllForToday();
   }
@@ -38,7 +40,6 @@ export class MealPage implements OnInit {
           console.log('Les différents plat sont : ');
           console.table(data);
         });
-
   }
   getAllForToday() {
     this.mealsService.findAllAvailableForToday()
