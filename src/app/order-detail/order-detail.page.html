@@ -6,62 +6,6 @@
 
 <ion-content>
 
-  <!--<div class="container">
-    <h2>Détail de la commande &#8470; {{order?.id}}</h2>
-
-    <table class="table table-bordered align-middle">
-      <thead>
-      <tr>
-        <th scope="col" ><span class="fa fa-calendar"></span> Date</th>
-        <th scope="col"><span class="fa fa-lemon-o"></span> Plats+Détails</th>
-        <th scope="col"><span class="fa fa-euro"></span> Prix</th>
-        <th scope="col"><span class="fa fa-list-ol"></span> &#8470; commande</th>
-      </tr>
-      </thead>
-      <tbody>
-      <ng-container *ngIf="order?.menu !== undefined">
-        <tr>
-          <td scope="row">{{order?.creationDate | date }}</td>
-          <td>{{order?.menu.label}}</td>
-          <td>{{order?.menu.priceDF}} €</td>
-          <td>{{order?.id}}</td>
-        </tr>
-        <tr>
-          <td colspan="3">Prix Total</td>
-          <td>{{computedPrice}} €</td>
-        </tr>
-      </ng-container>
-
-      <ng-container *ngIf="order?.quantityMeals !== undefined">
-        <tr>
-          <td scope="row">{{order?.creationDate | date }}</td>
-          <td>
-            <p *ngFor="let meal of order?.quantityMeals">{{meal.meal.label}}</p>
-          </td>
-          <td>
-            <p *ngFor="let meal of order?.quantityMeals">{{meal.meal.priceDF}} €</p>
-          </td>
-          <td>{{order?.id}}</td>
-        </tr>
-        <tr>
-          <td colspan="3">Prix Total</td>
-          <td>{{computedPrice}} €</td>
-        </tr>
-      </ng-container>
-      </tbody>
-    </table>
-
-    <div>
-      <h3>Informations du client</h3>
-      <span>
-    <span class="text-primary">Prénom: </span> <span class="font-italic">{{order?.user.firstname}} </span><br>
-    <span class="text-primary">Nom: </span> <span class="font-italic">{{order?.user.name}} </span><br>
-    <span class="text-primary">E-mail: </span> <span class="font-italic">{{order?.user.email}} </span><br>
-    <span class="text-primary">Porte-feuille: </span> <span class="font-italic">{{order?.user.wallet}} €</span>
-    </span>
-    </div>
-  </div>-->
-
   <ion-grid>
     <ion-row class="ion-text-center">
       <ion-col>
@@ -132,7 +76,7 @@
       </ng-container>
   </ion-grid>
 
-  <div text-center>
+  <div class="ion-text-center">
   <ion-title>Informations du client</ion-title>
 
   <ion-text color="primary">Prénom: </ion-text> <ion-text class="font-italic">{{order?.user.firstname}}</ion-text><br>
