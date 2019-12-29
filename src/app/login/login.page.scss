@@ -1,0 +1,24 @@
+ion-img{
+  width: 15%;
+  margin-left: 43%;
+  margin-top: 30%;
+}
+
+.login ion-img{
+  width: 15%;
+  margin-left: 43%;
+  margin-top: 15%;
+}
+
+ion-button{
+  margin-top: 5%;
+}
+
+.login text{
+  text-align: center;
+}
+
+.pane[state$="tabs.facts"]{
+  background: green;
+}
+

@@ -9,10 +9,6 @@ const routes: Routes = [
     loadChildren: () => import('./order/order.module').then(m => m.OrderPageModule)
   },
   {
-    path: 'menu',
-    loadChildren: () => import('./menu/menu.module').then(m => m.MenuPageModule)
-  },
-  {
     path: 'meal',
     children: [{
       path: '',
@@ -44,9 +40,8 @@ const routes: Routes = [
     loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule)
   },
   {
-    path: 'order-detail',
-    loadChildren: () => import('./order-detail/order-detail.module').then(m => m.OrderDetailPageModule)
-
+    path: 'order-detail/:id',
+    loadChildren: () => import('./order-detail/order-detail.module').then( m => m.OrderDetailPageModule)
   },
   {
     path: 'utilisateurs',
