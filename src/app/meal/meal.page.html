@@ -1,42 +1,39 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Plats</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
     <ion-title>
       Plats du jour
     </ion-title>
   </ion-toolbar>
 </ion-header>
-
+<ion-row>
+  <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-left">
+    <ion-searchbar placeholder="rechercher les plats" (ionInput)="searchPlat($event)"></ion-searchbar>
+  </ion-col>
+</ion-row>
 <ion-content>
+  <ion-fab slot="fixed" vertical="top" horizontal="center" #fab>
+    <ion-fab-button color="danger" (click)="verifChecked()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
   <ion-list>
-    <ion-item-sliding *ngFor="let plat of meals | keyvalue" #slidingItem>
+    <ion-item-sliding *ngFor="let plat of mealSearch | keyvalue" #slidingItem>
       <ion-item>
+        <ion-checkbox *ngIf="checkedmeal" color="success" slot="start"></ion-checkbox>
         <ion-thumbnail slot="start">
           <ion-img src="{{apiUrl}}/{{plat.value.image}}" alt=""></ion-img>
         </ion-thumbnail>
-        <div class="float-left item-note" slot="end">
-          {{ plat.value.label }}
-        </div>
+        <ion-label> {{ plat.value.label }}</ion-label>
 
         <div class="item-note" slot="end">
           <ion-button class="float-right font-weight-bold" [routerLink]="['/meal','detail',plat.value.id]">
             {{plat.value.priceDF}} €
           </ion-button>
         </div>
-
-
       </ion-item>
 
       <ion-item-options side='start'>
-        <ion-item-option color="secondary" (click)="onEdit(plat.id,slidingItem)">
+        <ion-item-option color="secondary" (click)="onEdit(plat.value.id,slidingItem)">
           <ion-icon name="create" slot="icon-only"></ion-icon>
         </ion-item-option>
       </ion-item-options>
@@ -53,10 +50,24 @@
       You navigated here from <b>{{selectedItem.title }}</b>
     </div>
   -->
+
+
 </ion-content>
 
 
-<!--<ion-content>
+<!--
+  <ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Plats du jour
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+  <ion-content>
   <div class="jumbotron jumbotron-fluid" *ngIf="userInfo !== undefined">
     <h3 class="w-100">Bonjour {{userInfo.user.firstname}} {{userInfo.user.name}}</h3>
     <p class="">Bienvenue !</p>
@@ -83,4 +94,7 @@
 
 </ion-list>
 </ion-content>
+
+<ion-checkbox color="success" checked="true" slot="start"></ion-checkbox>
+<ion-badge color="danger" class="float-right" slot="end">{{plat.value.ingredients?.length}}</ion-badge>
 -->
