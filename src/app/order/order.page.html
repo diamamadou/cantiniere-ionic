@@ -5,45 +5,13 @@
 </ion-header>
 
 <ion-content>
+  <ion-searchbar placeholder="identifiant de la commande" (change)="getOrder(orderId)" [(ngModel)]="orderId"></ion-searchbar>
 
-  <!--<div class="container">
-    <table class="table table-bordered table-hover">
-      <thead>
-      <tr>
-        <th scope="col" ><span class="fa fa-calendar"></span> Date</th>
-        <th scope="col"><span class="fa fa-lemon-o"></span> Plats+Détails</th>
-        <th scope="col"><span class="fa fa-euro"></span> Prix</th>
-        <th scope="col"><span class="fa fa-list-ol"></span> &#8470; commande</th>
-      </tr>
-      </thead>
-      <tbody *ngFor="let order of orders">
-      <tr *ngIf="order.menu !== undefined" [routerLink]="['/detailCommande/'+order.id]">
-        <td scope="row">{{order.creationDate | date }}</td>
-        <td>{{order.menu.label}}</td>
-        <td>{{order.menu.priceDF}} €</td>
-        <td>{{order.id}}</td>
-      </tr>
+  <div *ngIf="!orders?.length > 0" class="ion-text-center no-orders">
+    <ion-text>Vous n'avez aucune commande !</ion-text>
+  </div>
 
-      <tr *ngIf="order.quantityMeals !== undefined" [routerLink]="['/detailCommande/'+order.id]">
-        <ng-container>
-          <td scope="row">{{order.creationDate | date }}</td>
-          <ng-container>
-            <td>
-              <p *ngFor="let meal of order.quantityMeals">{{meal.meal.label}}</p>
-            </td>
-            <td>
-              <p *ngFor="let meal of order.quantityMeals">{{meal.meal.priceDF}} €</p>
-            </td>
-          </ng-container>
-
-          <td>{{order.id}}</td>
-        </ng-container>
-      </tr>
-      </tbody>
-    </table>
-  </div>-->
-
-  <ion-grid>
+  <ion-grid *ngIf="orders?.length > 0">
     <ion-row class="ion-text-center">
       <ion-col>
         <ion-icon name="calendar"></ion-icon>
@@ -64,7 +32,8 @@
     </ion-row>
 
     <ng-container *ngFor="let order of orders">
-    <ion-row *ngIf="order.menu !== undefined" [routerLink]="['/order-detail/'+order.id]" class="ion-text-center">
+    <ion-row *ngIf="order.menu" [routerLink]="['/order-detail/'+order.id]" class="ion-text-center">
+      <!--- order.menu !== undefined -->
       <ion-col>
         {{order.creationDate | date }}
       </ion-col>
@@ -79,7 +48,8 @@
       </ion-col>
     </ion-row>
 
-    <ion-row *ngIf="order.quantityMeals !== undefined" [routerLink]="['/order-detail/'+order.id]" class="ion-text-center">
+    <ion-row *ngIf="order.quantityMeals" [routerLink]="['/order-detail/'+order.id]" class="ion-text-center">
+      <!-- order.quantityMeals !== undefined -->
       <ion-col>
         {{order.creationDate | date }}
       </ion-col>

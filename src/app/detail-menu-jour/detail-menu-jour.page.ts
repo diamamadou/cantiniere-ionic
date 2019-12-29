@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {MenuService} from '../services/menu.service';
 import { ActivatedRoute } from '@angular/router';
+import {IonItemSliding, ModalController} from '@ionic/angular';
+import {ModalPage} from '../modal/modal.page';
 
 @Component({
   selector: 'app-detail-menu-jour',
@@ -10,7 +12,9 @@ import { ActivatedRoute } from '@angular/router';
 export class DetailMenuJourPage implements OnInit {
   key;
   mealDay = [];
-  constructor(private menuService: MenuService, private route: ActivatedRoute) {
+  menuId;
+  menuLabel;
+  constructor(private menuService: MenuService, private route: ActivatedRoute, private modalController: ModalController) {
     this.route.params
     .subscribe(params => this.key = params.id);
    }
@@ -21,12 +25,31 @@ export class DetailMenuJourPage implements OnInit {
 
   menuDetail() {
     this.menuService.findAllAvailableForToday()
-      .subscribe(data =>
-        {this.mealDay = data[this.key].meals;
+      .subscribe(data => { this.mealDay = data[this.key].meals; this.menuId = data[this.key].id;
           console.log('Les plats du menu sélectionné sont: ');
         this.mealDay.forEach(element => {
           console.log(element.label);
-          console.log('Prix: ' + element.priceDF)
-        });});
+          console.log('Prix: ' + element.priceDF);
+        }); });
   }
+
+    addToCart(mealId, slidingItem: IonItemSliding) {
+      if (slidingItem)
+          slidingItem.close();
+      console.log(mealId);
+      this.menuService.find(mealId)
+          .subscribe(
+                async meal => { this.menuLabel = meal.label; localStorage.setItem('menu_' + mealId, meal.label + ' ' + mealId); },
+                (error) => {},
+                async () => {
+                  const modal = await this.modalController.create({
+                    component: ModalPage,
+                    cssClass: 'my-modal',
+                    componentProps: {
+                      menuLabel: this.menuLabel
+                    }
+                  });
+                  return await modal.present();
+          });
+    }
 }

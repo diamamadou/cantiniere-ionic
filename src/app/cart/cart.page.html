@@ -1,0 +1,85 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mon panier</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="!userId" class="ion-text-center no-orders">
+    <ion-text>Veillez vous connectez</ion-text>
+  </div>
+
+  <div *ngIf="!meal && !menu" class="ion-text-center no-orders">
+    <ion-text>Vous n'avez aucun plat/menu dans votre panier !</ion-text>
+  </div>
+
+  <ng-container *ngIf="meal">
+  <ion-grid>
+    <ion-row class="ion-text-center">
+      <ion-col>
+        <ion-icon name="pizza"></ion-icon>
+        Plats+Détails
+      </ion-col>
+      <ion-col>
+        <ion-icon name="logo-euro"></ion-icon>
+        Prix
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-text-center">
+      <ion-col>
+        {{meal?.label}}
+      </ion-col>
+      <ion-col>
+        {{meal?.priceDF}} €
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="ion-text-center">
+    <ion-button (click)="addOrder('meal')">
+      <ion-icon name="cart"></ion-icon>
+    </ion-button>
+    <ion-button (click)="deleteOrder('meal')" color="danger">
+      <ion-icon name="trash"></ion-icon>
+    </ion-button>
+  </div>
+  </ng-container>
+
+  <!--    Menu    -->
+
+  <ng-container *ngIf="menu">
+    <ion-grid>
+      <ion-row class="ion-text-center">
+        <ion-col>
+          <ion-icon name="pizza"></ion-icon>
+          Plats+Détails
+        </ion-col>
+        <ion-col>
+          <ion-icon name="logo-euro"></ion-icon>
+          Prix
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="ion-text-center">
+        <ion-col>
+          {{menu?.label}}
+        </ion-col>
+        <ion-col>
+          {{menu?.priceDF}} €
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div class="ion-text-center">
+      <ion-button (click)="addOrder('menu')">
+        <ion-icon name="cart"></ion-icon>
+      </ion-button>
+      <ion-button (click)="deleteOrder('menu')" color="danger">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </div>
+  </ng-container>
+
+</ion-content>

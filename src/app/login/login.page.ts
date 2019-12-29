@@ -23,9 +23,9 @@ export class LoginPage implements OnInit {
 
   login(user) {
     this.authService.logIn(user.form.value)
-        .subscribe(users => { console.log('Vous ètes connectés'); },
+        .subscribe(users => { },
             error => { this.router.navigate(['/login']); },
-            () => { this.userInfos = this.authService.getUserInfo(this.authService.getToken()); }
+            () => { this.userInfos = this.authService.getUserInfo(this.authService.getToken()); console.log('Vous ètes connectés'); }
         );
   }
 

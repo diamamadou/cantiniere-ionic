@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {OrderService} from '../services/order.service';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-order',
@@ -13,21 +14,27 @@ export class OrderPage implements OnInit {
   quantityMealDefined;
   menuDefined;
   computedPrice;
+  orderId;
 
-  constructor(private orderService: OrderService) { }
+  constructor(private orderService: OrderService, private authService: AuthService) { }
 
   ngOnInit() {
+      const userInfos = this.authService.getUserInfo(this.authService.getToken()).user;
     // this.addOrder();
     // this.cancelOrder(2);
     // this.computePrice(this., -1);
     // this.deliveryAndPay(5, -1);
     // this.getOrder(2);
-     this.findAll();
-     this.findAllBetweenInStatus('02-03-2019', '12-06-2019', 0);
+     // this.findAllBetweenInStatus('02-03-2019', '12-06-2019', 0);
+      if(!userInfos.isLunchLady)
+          this.findAllForUser(userInfos.id);
+      else
+          this.findAll();
+     // console.log(this.authService.getUserInfo(this.authService.getToken()));
   }
 
   addOrder() {
-    this.orderService.addOrder()
+    this.orderService.addOrder(this.orderId)
         .subscribe(order => {console.log(order);
             },
             (error) =>
@@ -89,5 +96,11 @@ export class OrderPage implements OnInit {
      this.orderService.findAllBetweenInStatus(beginDate, endDate, status)
         .subscribe(data => { console.log(data); },
             (err) => { console.log('Vous n\'ètes pas connectés / Vous n\ètes pas cantinière'); });
+  }
+
+  findAllForUser(userId) {
+      this.orderService.findAllForUser(userId)
+          .subscribe(orders => { this.orders = orders; console.log(orders); },
+          (err) => { console.log('Vous n\'avez aucune commande'); });
   }
 }

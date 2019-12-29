@@ -9,14 +9,14 @@
     <ion-list>
         <ion-item *ngFor="let plat of mealDay" class="d-flex align-content-center p-1">>
             <ion-item></ion-item>
-            <h6>{{plat.label}}</h6> 
+            <h6>{{plat?.label}}</h6>
             <ion-item>
-                <p class="small">  <img src="http://localhost:8080/lunchtime/{{plat.image}}" /> </p>
+                <p class="small">  <img src="http://localhost:8080/lunchtime/{{plat?.image}}" /> </p>
                 <ion-item></ion-item>
-                <button class="w-25 h-25 ml-1">Prix: {{plat.priceDF}}</button>
+                <button class="w-25 h-25 ml-1">Prix: {{plat?.priceDF}}</button>
             </ion-item>          
         </ion-item>
-       <ion-button class="float-center font-weight-bold">Ajouter au panier</ion-button>
+       <ion-button class="float-center font-weight-bold" (click)="addToCart(menuId, null)">Ajouter au panier</ion-button>
     </ion-list>
 
 </ion-content>
