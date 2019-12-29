@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MenuService } from '../services/menu.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import {IonItemSliding, ModalController} from '@ionic/angular';
+import {ModalPage} from '../modal/modal.page';
 
 @Component({
   selector: 'app-todays-menu',
@@ -15,8 +17,9 @@ export class TodaysMenuPage implements OnInit {
   key;
   errors;
   userInfo;
+  menuLabel;
 
-  constructor(private menuService: MenuService, private route: ActivatedRoute, private router: Router, private authService: AuthService) {
+  constructor(private menuService: MenuService, private route: ActivatedRoute, private router: Router, private authService: AuthService, private modalController: ModalController) {
     this.route.params
       .subscribe(params => this.key = params);
   }
@@ -31,7 +34,7 @@ export class TodaysMenuPage implements OnInit {
       this.todayMenu = data; console.log('Les menus du jour sont : ');
         data.forEach(element => { console.log(element);
           // this.todayMeal = element.meals;
-          console.log(element.label + '  Prix: ' + element.priceDF);
+          //console.log(element.label + '  Prix: ' + element.priceDF);
         })
           ;
       });
@@ -92,8 +95,27 @@ export class TodaysMenuPage implements OnInit {
   .subscribe(data => this.findforweek = data);
    this.userInfo = this.authService.getUserInfo(this.authService.getToken());
    }
-  
 
+  addToCart(mealId, slidingItem: IonItemSliding) {
+    slidingItem.close();
+    console.log(mealId);
+    /*this.menuService.find(mealId)
+        .subscribe(
+            async meal => { this.menuLabel = meal.label; localStorage.setItem('plat_' + mealId, meal.label + ' ' + mealId); },
+            (error) => {},
+            async () => {
+              const modal = await this.modalController.create({
+                component: ModalPage,
+                cssClass: 'my-modal',
+                componentProps: {
+                  name: 'T0X',
+                  email: 'mamsodia',
+                  mealLabel: this.menuLabel
+                }
+              });
+              return await modal.present();
+            });*/
+  }
 
 }
 

@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { DetailMenuJourPageRoutingModule } from './detail-menu-jour-routing.module';
 
 import { DetailMenuJourPage } from './detail-menu-jour.page';
+import {ModalPageModule} from '../modal/modal.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DetailMenuJourPageRoutingModule
+    DetailMenuJourPageRoutingModule,
+    ModalPageModule
   ],
   declarations: [DetailMenuJourPage]
 })

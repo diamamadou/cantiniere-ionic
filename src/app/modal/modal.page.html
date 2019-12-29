@@ -1,0 +1,9 @@
+<ion-content>
+  <p *ngIf="mealLabel">Le {{mealLabel}} a été ajouté dans votre panier</p>
+  <p *ngIf="menuLabel">Le {{menuLabel}} a été ajouté dans votre panier</p>
+
+  <ion-button color="danger" (click)="closeModal()">Fermer</ion-button>
+  <ion-button color="light" (click)="openCart()">
+    <ion-icon name="cart"></ion-icon>
+  </ion-button>
+</ion-content>

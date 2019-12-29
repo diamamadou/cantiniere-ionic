@@ -10,18 +10,7 @@ export class OrderService {
 
   constructor(private http: HttpClient) { }
 
-  addOrder(): Observable <any> {
-    const order = {
-      constraintId : -1,
-      menuId : 2,
-      quantityMeals: [
-        {mealId: 9,
-          quantity: 1
-        }
-      ],
-      userId: 1
-    };
-    // const order =
+  addOrder(order): Observable <any> {
     const url = 'http://localhost:8080/lunchtime/order/add';
     return this.http.put(url, order, {responseType: 'json'})
         .pipe(
@@ -81,6 +70,15 @@ export class OrderService {
     const dateFin = 'endDate=' + endDate;
     const statu = 'status=' + status;
     const url = 'http://localhost:8080/lunchtime/order/findallbetweendateinstatus?' + dateDebut + '&' + dateFin + '&' + statu;
+    return this.http.get(url)
+        .pipe(
+            tap(data => {},
+                (err) => { console.log('Erreur !'); })
+        );
+  }
+
+  findAllForUser(userId): Observable<any> {
+    const url = 'http://localhost:8080/lunchtime/order/findallforuser/' + userId;
     return this.http.get(url)
         .pipe(
             tap(data => {},

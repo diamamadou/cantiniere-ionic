@@ -32,7 +32,7 @@ export class AuthService {
   }
 
   logOut() {
-    localStorage.removeItem('user_token');
+    localStorage.clear();
   }
 
   forgotPassword(email): Observable<any> {

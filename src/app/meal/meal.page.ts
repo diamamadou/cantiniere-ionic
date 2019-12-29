@@ -4,6 +4,9 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { IonItemSliding } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
+import { ModalController } from '@ionic/angular';
+import { ModalPage } from '../modal/modal.page';
+import {OrderService} from '../services/order.service';
 
 @Component({
   selector: 'app-meal',
@@ -12,11 +15,18 @@ import { environment } from 'src/environments/environment';
 })
 export class MealPage implements OnInit {
 
-  constructor(private mealsService: MealService, private authService: AuthService, private router: Router) { }
+  constructor(
+      private mealsService: MealService,
+      private authService: AuthService,
+      private router: Router,
+      private modalController: ModalController,
+      private orderService: OrderService
+  ) { }
   todayMeal;
   meals;
   userInfo;
   apiUrl = environment.apiUrl;
+  mealLabel;
   ngOnInit() {
     this.getAllForToday();
   }
@@ -57,7 +67,6 @@ export class MealPage implements OnInit {
     slidingItem.close();
     this.router.navigate(['/meal', 'edit', ':IdPlat']);
     console.log('Plate numéro', idPlat = 13);
-
   }
   onEdit(idPlat: number, slidingItem: IonItemSliding) {
     slidingItem.close();
@@ -65,37 +74,23 @@ export class MealPage implements OnInit {
     console.log('Plate numéro', idPlat = 13);
   }
 
-  // getAllForToday() {
-  //   this.mealService.findAllAvailableForToday()
-  //     .subscribe(data => {
-  //     this.todayMeal = data; console.log('Les plats du jour sont : ');
-  //       data.forEach(element => {
-  //         // this.todayMeal = element.meals;
-  //         console.log(element.label + '  Prix: ' + element.priceDF);
-  //       })
-  //         ;
-  //     });
-  //   this.mealService.findAllAvailableForToday()
-  //     .subscribe(data => this.todayMeal = data);
-
-  //   if (this.authService.getToken() !== null) {
-  //     this.userInfo = this.authService.getUserInfo(this.authService.getToken());
-  //     console.log('Bienvenue ' + this.userInfo.user.name + ' ' + this.userInfo.user.firstname + '');
-  //   }
-  // }
-
-  logout() {
-    this.authService.logOut();
-    this.router.navigate(['/platDuJour']);
-    console.log('vous ètes déconnectés !');
-  }
-
-  login() {
-    this.router.navigate(['/login']);
-  }
-
-  register() {
-    this.router.navigate(['/register']);
+   addToCart(mealId, slidingItem: IonItemSliding) {
+    slidingItem.close();
+    console.log(mealId);
+    this.mealsService.findOneMeal(mealId)
+        .subscribe(
+            async meal => { this.mealLabel = meal.label; localStorage.setItem('plat_' + mealId, meal.label + ' ' + mealId); },
+            (error) => {},
+            async () => {
+                const modal = await this.modalController.create({
+                  component: ModalPage,
+                  cssClass: 'my-modal',
+                  componentProps: {
+                    mealLabel: this.mealLabel
+                  }
+                });
+                return await modal.present();
+        });
   }
 
 }

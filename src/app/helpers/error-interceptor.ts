@@ -1,8 +1,9 @@
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {AuthService} from '../services/auth.service';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
+import set = Reflect.set;
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -13,11 +14,13 @@ export class ErrorInterceptor implements HttpInterceptor {
       .pipe(
         catchError(err => {
           if (err.status === 401) {
+              console.log('Error 401');
             // this.authService.logOut();
             // location.reload(true);
-          } /*else if (err.status === 412) {
-            console.log('helpp');
-          }*/
+          } else if (err.status === 403) {
+              console.log('helpp');
+              catchError(err);
+          }
           const error = err.message || err.statusText;
           return throwError(error);
         })
