@@ -4,21 +4,64 @@
       <ion-back-button defaultHref="/meal"></ion-back-button>
     </ion-buttons>
     <ion-title>Edition du Plat</ion-title>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-grid>
-    <ion-row>
-      <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>titre plat</ion-card-title>
-            <ion-card-subtitle>sous-titre plat</ion-card-subtitle>
-          </ion-card-header>
-          <ion-img></ion-img>
-        </ion-card>
-      </ion-col>
-    </ion-row>
+    <form (ngSubmit)="edit(f)" #f="ngForm">
+      <ion-row>
+        <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Edition du plat</ion-card-title>
+              <ion-card-subtitle>{{meal?.label}}</ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-item>
+              <ion-label position="floating">Intitulé</ion-label>
+              <ion-input name="label" [ngModel]="meal?.label" required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Prix</ion-label>
+              <ion-input name="Prix" [ngModel]="meal?.priceDF" required></ion-input>
+            </ion-item> <br>
+            <ion-item>
+              <ion-label position="floating">Image</ion-label>
+              <ion-input name="image" [ngModel]="meal?.image" required></ion-input>
+            </ion-item> <br>
+
+            <ion-list>
+              <ion-list-header>Choisir les Ingrédients</ion-list-header>
+
+              <ion-item>
+                <ion-label>Liste des ingrédients</ion-label>
+                <ion-select value="notifications" interface="action-sheet" multiple="true" [compareWith]="compareWith">
+                  <span *ngFor="let ingred of meal?.ingredients">
+                    <ion-select-option>
+                      {{ingred?.label}}
+                    </ion-select-option>
+                  </span>
+
+                </ion-select>
+              </ion-item>
+            </ion-list>
+          </ion-card>
+          <div class="ion-margin">
+            <ion-button type="submit" expand="block">Modifier</ion-button>
+            <ion-button type="button" expand="block" color="danger" (click)="delete()">Annuler
+            </ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
+
+        </ion-col>
+      </ion-row>
+    </form>
+
   </ion-grid>
+
 </ion-content>

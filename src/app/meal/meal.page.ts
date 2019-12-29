@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MealService } from '../services/meal.service';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import { IonItemSliding } from '@ionic/angular';
+import { IonItemSliding, LoadingController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { ModalController } from '@ionic/angular';
 import { ModalPage } from '../modal/modal.page';
@@ -24,9 +24,12 @@ export class MealPage implements OnInit {
   ) { }
   todayMeal;
   meals;
+  mealSearch;
   userInfo;
   apiUrl = environment.apiUrl;
   mealLabel;
+  checkedmeal = false;
+
   ngOnInit() {
     this.getAllForToday();
   }
@@ -47,6 +50,7 @@ export class MealPage implements OnInit {
       .subscribe(
         data => {
           this.meals = data;
+
           console.log('Les différents plat sont : ');
           console.table(data);
         });
@@ -55,6 +59,7 @@ export class MealPage implements OnInit {
     this.mealsService.findAllAvailableForToday()
       .subscribe(data => {
         this.meals = data; console.log('Les plats du jour sont : ');
+        this.mealSearch = this.meals;
         data.forEach(element => {
           // this.todayMeal = element.meals;
           console.log(element.label + '  Prix: ' + element.priceDF);
@@ -65,13 +70,19 @@ export class MealPage implements OnInit {
   }
   ondelete(idPlat: number, slidingItem: IonItemSliding) {
     slidingItem.close();
-    this.router.navigate(['/meal', 'edit', ':IdPlat']);
-    console.log('Plate numéro', idPlat = 13);
+    this.router.navigate(['/meal', 'edit', idPlat]);
+    console.log('Plate numéro', idPlat);
   }
   onEdit(idPlat: number, slidingItem: IonItemSliding) {
     slidingItem.close();
-    this.router.navigate(['/meal', 'edit', ':IdPlat']);
-    console.log('Plate numéro', idPlat = 13);
+    this.router.navigate(['/meal', 'edit', idPlat]);
+    console.log('Plate numéro', idPlat);
+  }
+  searchPlat(event) {
+    const motcle = event.target.value.toLocaleLowerCase().trim();
+    return this.mealSearch = this.meals.filter(tech => tech.label.toLocaleLowerCase().includes(motcle));
+
+
   }
 
    addToCart(mealId, slidingItem: IonItemSliding) {
@@ -93,4 +104,13 @@ export class MealPage implements OnInit {
         });
   }
 
+  verifChecked() {
+    if (this.checkedmeal) {
+      this.checkedmeal = false;
+    } else {
+      this.checkedmeal = true;
+    }
+
+
+  }
 }

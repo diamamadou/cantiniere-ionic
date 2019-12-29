@@ -1,0 +1,30 @@
+:root {
+  --ion-color-new: #b2b3b3;
+  --ion-color-new-rgb: 178,179,179;
+  --ion-color-new-contrast: #000000;
+  --ion-color-new-contrast-rgb: 0,0,0;
+  --ion-color-new-shade: #9d9e9e;
+  --ion-color-new-tint: #babbbb;
+}
+
+.ion-color-new {
+  --ion-color-base: var(--ion-color-new);
+  --ion-color-base-rgb: var(--ion-color-new-rgb);
+  --ion-color-contrast: var(--ion-color-new-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-new-contrast-rgb);
+  --ion-color-shade: var(--ion-color-new-shade);
+  --ion-color-tint: var(--ion-color-new-tint);
+}
+
+/* Set the color on all ion-button elements */
+ion-input{
+  --color: rgba(99, 99, 99, 0.925);
+}
+ion-input{
+  --font-size:16pt;
+}
+
+/* Set the background on an ion-button with the .fancy-button class */
+.fancy-button {
+  --background: #00ff00;
+}

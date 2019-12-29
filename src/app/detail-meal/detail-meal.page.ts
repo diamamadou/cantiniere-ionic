@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MealService } from '../services/meal.service';
 import { environment } from 'src/environments/environment';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-detail-meal',
@@ -16,6 +17,7 @@ export class DetailMealPage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private serviceMeal: MealService,
+    public loadingCtrl: LoadingController
   ) { }
 
   ngOnInit() {
@@ -28,9 +30,17 @@ export class DetailMealPage implements OnInit {
     this.serviceMeal.findOneMeal(IdPlat)
       .subscribe(
         meal => { console.log(meal); this.meal = meal; },
-        (err) => console.log('Votre commande n\'a pas été trouvé !'),
+        (err) => console.log('Votre plat n\'a pas été trouvé !'),
       );
   }
-
+  async openSocial(network: string, fab: HTMLIonFabElement) {
+    const loading = await this.loadingCtrl.create({
+      message: `Posting to ${network}`,
+      duration: (Math.random() * 1000) + 500
+    });
+    await loading.present();
+    await loading.onWillDismiss();
+    fab.close();
+  }
 
 }
