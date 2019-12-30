@@ -76,6 +76,15 @@
       </ng-container>
   </ion-grid>
 
+  <div class="ion-text-center" *ngIf="order?.status === 0">
+    <ion-button (click)="cancelOrder(order?.id)">
+      Annuler la commande
+    </ion-button>
+    <ion-button *ngIf="cantiniere" (click)="deliveryAndPay(order?.id, -1)">
+      Délivrer
+    </ion-button>
+  </div>
+
   <div class="ion-text-center">
   <ion-title>Informations du client</ion-title>
 
