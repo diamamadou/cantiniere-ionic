@@ -26,6 +26,10 @@
         Prix
       </ion-col>
       <ion-col>
+        <ion-icon name="shuffle"></ion-icon>
+        Statut
+      </ion-col>
+      <ion-col>
         <ion-icon name="list"></ion-icon>
         &#8470; commande
       </ion-col>
@@ -44,6 +48,11 @@
         {{order.menu.priceDF}} €
       </ion-col>
       <ion-col>
+        <p *ngIf="order?.status === 0">Éffectuée</p>
+        <p *ngIf="order?.status === 1">Délivrée</p>
+        <p *ngIf="order?.status === 2">Annulée</p>
+      </ion-col>
+      <ion-col>
         {{order.id}}
       </ion-col>
     </ion-row>
@@ -58,6 +67,11 @@
       </ion-col>
       <ion-col>
         <p *ngFor="let meal of order.quantityMeals">{{meal.meal.priceDF}} €</p>
+      </ion-col>
+      <ion-col>
+        <p *ngIf="order?.status === 0">Éffectuée</p>
+        <p *ngIf="order?.status === 1">Délivrée</p>
+        <p *ngIf="order?.status === 2">Annulée</p>
       </ion-col>
       <ion-col>
         {{order.id}}
