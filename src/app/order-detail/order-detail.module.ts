@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { OrderDetailPageRoutingModule } from './order-detail-routing.module';
 
 import { OrderDetailPage } from './order-detail.page';
+import {ModalPageModule} from '../modal/modal.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    OrderDetailPageRoutingModule
+    OrderDetailPageRoutingModule,
+    ModalPageModule
   ],
   declarations: [OrderDetailPage]
 })

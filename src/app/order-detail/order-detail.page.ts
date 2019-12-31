@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {OrderService} from '../services/order.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../services/auth.service';
+import {ModalPage} from '../modal/modal.page';
+import {ModalController} from '@ionic/angular';
 
 @Component({
   selector: 'app-order-detail',
@@ -19,7 +21,8 @@ export class OrderDetailPage implements OnInit {
       private orderService: OrderService,
       private route: ActivatedRoute,
       private router: Router,
-      private authService: AuthService) {
+      private authService: AuthService,
+      private modalController: ModalController) {
     this.route.params
         .subscribe(params => {this.key = params.id; console.log(params.id); });
   }
@@ -53,15 +56,34 @@ export class OrderDetailPage implements OnInit {
     this.orderService.cancelOrder(orderId)
         .subscribe(order => {  },
             (error) => { console.log('Votre commande n\'a pas été trouvé !'); },
-            () => { this.router.navigate(['/order']); }
+            async () => {
+              const modal = await this.modalController.create({
+                component: ModalPage,
+                cssClass: 'my-modal',
+                componentProps: {
+                  orderCanceled: true
+                }
+              });
+              return await modal.present();
+            }
         );
   }
 
   deliveryAndPay(orderId, constraintId) {
     this.orderService.deliveryAndPay(orderId, constraintId)
         .subscribe(
-            order => {console.log(order); },
-            err => console.log('Vous n\'avez assez d\'argent :)')
+            order => { console.log(order); },
+            err => { console.log('Vous n\'avez assez d\'argent :)'); },
+            async () => {
+              const modal = await this.modalController.create({
+                component: ModalPage,
+                cssClass: 'my-modal',
+                componentProps: {
+                  deliveredAndPayed: true
+                }
+              });
+              return await modal.present();
+            }
         );
   }
 }

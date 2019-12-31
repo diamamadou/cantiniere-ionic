@@ -13,6 +13,8 @@ export class ModalPage implements OnInit {
   @Input() email;
   @Input() mealLabel;
   @Input() menuLabel;
+  @Input() deliveredAndPayed;
+  @Input() orderCanceled;
 
   constructor(navParams: NavParams, private modalController: ModalController, private router: Router) {
     // console.log(navParams.get('name'));
@@ -23,6 +25,9 @@ export class ModalPage implements OnInit {
 
   closeModal() {
     this.modalController.dismiss();
+    if (this.deliveredAndPayed || this.orderCanceled) {
+      this.router.navigate(['/order']);
+    }
   }
 
   openCart() {
