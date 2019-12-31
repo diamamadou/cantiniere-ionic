@@ -13,82 +13,38 @@ export class OrderPage implements OnInit {
   meals;
   quantityMealDefined;
   menuDefined;
-  computedPrice;
-  orderId;
+  inputOrderId;
 
   constructor(private orderService: OrderService, private authService: AuthService) { }
 
   ngOnInit() {
       const userInfos = this.authService.getUserInfo(this.authService.getToken()).user;
-    // this.addOrder();
-    // this.cancelOrder(2);
-    // this.computePrice(this., -1);
-    // this.deliveryAndPay(5, -1);
-    // this.getOrder(2);
-     // this.findAllBetweenInStatus('02-03-2019', '12-06-2019', 0);
+      // this.findAllBetweenInStatus('02-03-2019', '12-06-2019', 0);
       if(!userInfos.isLunchLady)
           this.findAllForUser(userInfos.id);
       else
           this.findAll();
-     // console.log(this.authService.getUserInfo(this.authService.getToken()));
   }
 
-  addOrder() {
-    this.orderService.addOrder(this.orderId)
-        .subscribe(order => {console.log(order);
-            },
-            (error) =>
-                console.log('Vous ne pouvez pas commander à cette heure / Le nombre de commandes maximum est atteint !')
-        );
-  }
-
-  cancelOrder(orderId) {
-    this.orderService.cancelOrder(orderId)
-        .subscribe(order => {console.log(order); },
-            (error) => console.log('Votre commande n\'a pas été trouvé !')
-        );
-  }
-
-  computePrice(orderId, constraintId) {
-    this.orderService.computePrice(orderId, constraintId)
+  getOrder() {
+    this.orderService.getOrder(this.inputOrderId)
         .subscribe(
-            order => {console.log(order); this.computedPrice = order;},
-            (err) => console.log('Votre commande n\'a pas été trouvé')
-        );
-  }
-
-  deliveryAndPay(orderId, constraintId) {
-    this.orderService.deliveryAndPay(orderId, constraintId)
-        .subscribe(
-            order => {console.log(order); },
-            err => console.log('Vous n\'avez assez d\'argent :)')
-        );
-  }
-
-  getOrder(orderId) {
-    this.orderService.getOrder(orderId)
-        .subscribe(
-            order => {console.log(order); },
+            order => { console.log(order); },
             (err) => console.log('Votre commande n\'a pas été trouvé !'),
-            // () => {this.route.navigate(['/']); } // [routerLink]="['/detail-meal/'}
         );
-    console.log('hello');
   }
 
   findAll() {
     this.orderService.findAll()
         .subscribe(
-            data => {this.orders = data; this.meals = data.quantityMeals;
-              console.log(data);
-              data.forEach(element => {
-                // this.todayMeal = element.meals;
-                this.quantityMealDefined = element.quantityMeals;
-                this.menuDefined = element.menu;
-                // console.log(element.menu);
-                // console.log(element);
+            data => {this.orders = data; this.meals = data.quantityMeals; console.log('Les numéros des commandes sont: ');
+                     data.forEach(element => {
+                     this.quantityMealDefined = element.quantityMeals;
+                     this.menuDefined = element.menu;
+                     console.log(element.id);
               }); },
             (err) => console.log('Vous n\'ètes pas cantinière !'),
-            () => {this.orderService = this.orders; }
+            () => { this.orderService = this.orders; }
         );
   }
 

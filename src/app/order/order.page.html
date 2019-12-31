@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-searchbar placeholder="identifiant de la commande" (change)="getOrder(orderId)" [(ngModel)]="orderId"></ion-searchbar>
+  <ion-searchbar placeholder="Numéro de la commande" [(ngModel)]="inputOrderId" (search)="getOrder()"></ion-searchbar>
 
   <div *ngIf="!orders?.length > 0" class="ion-text-center no-orders">
     <ion-text>Vous n'avez aucune commande !</ion-text>
@@ -70,7 +70,7 @@
       </ion-col>
       <ion-col>
         <p *ngIf="order?.status === 0">Éffectuée</p>
-        <p *ngIf="order?.status === 1">Délivrée</p>
+        <p *ngIf="order?.status === 1">Livrée</p>
         <p *ngIf="order?.status === 2">Annulée</p>
       </ion-col>
       <ion-col>
@@ -79,6 +79,5 @@
     </ion-row>
     </ng-container>
   </ion-grid>
-
 
 </ion-content>

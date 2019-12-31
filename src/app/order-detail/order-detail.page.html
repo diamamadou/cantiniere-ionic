@@ -80,7 +80,7 @@
     <ion-button (click)="cancelOrder(order?.id)">
       Annuler la commande
     </ion-button>
-    <ion-button *ngIf="cantiniere" (click)="deliveryAndPay(order?.id, -1)">
+    <ion-button *ngIf="cantiniere && order?.user.wallet >= computedPrice && order?.status === 0" (click)="deliveryAndPay(order?.id, -1)">
       Délivrer
     </ion-button>
   </div>
