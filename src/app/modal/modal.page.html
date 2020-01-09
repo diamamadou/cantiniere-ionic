@@ -1,3 +1,4 @@
+<!-- Meal & Menu -->
 <ion-content *ngIf="menuLabel || mealLabel">
   <p *ngIf="mealLabel">Le {{mealLabel}} a été ajouté dans votre panier</p>
   <p *ngIf="menuLabel">Le {{menuLabel}} a été ajouté dans votre panier</p>
@@ -8,9 +9,43 @@
   </ion-button>
 </ion-content>
 
+<!-- Order Pay & Order Cancel -->
 <ion-content *ngIf="deliveredAndPayed || orderCanceled">
   <p *ngIf="deliveredAndPayed">La commande à été payée et livrée</p>
   <p *ngIf="orderCanceled">La commande à été annulée</p>
+
+  <ion-button color="danger" (click)="closeModal()">Fermer</ion-button>
+</ion-content>
+
+<!-- Order Filter -->
+<ion-content *ngIf="btnLabel">
+  <ng-container *ngIf="btnLabel === 'entre_dates'">
+    <ion-datetime displayFormat="DD MMM YYYY" placeholder="Date de début" [(ngModel)]="beginDate"></ion-datetime>
+    <ion-datetime displayFormat="DD MMM YYYY" placeholder="Date de début" [(ngModel)]="endDate"></ion-datetime>
+    <ion-item>
+      <ion-label>Statut</ion-label>
+    <ion-select [(ngModel)]="status">
+      <ion-select-option value="0" [selected]="0">Effectuée</ion-select-option>
+      <ion-select-option value="1">Livrée</ion-select-option>
+      <ion-select-option value="2">Annulée</ion-select-option>
+    </ion-select>
+    </ion-item>
+
+    <ion-button color="success" (click)="openFilterModal('entre_dates')">Filtrer</ion-button>
+
+  </ng-container>
+
+  <ng-container *ngIf="btnLabel === 'par_utilisateur'">
+    <ion-input placeholder="Identifiant de l'utilisateur" [(ngModel)]="userId"></ion-input>
+
+    <ion-button color="success" (click)="openFilterModal('par_utilisateur')">Filtrer</ion-button>
+  </ng-container>
+
+  <ng-container *ngIf="btnLabel === 'aujourdhui_utilisateur'">
+    <ion-input placeholder="Identifiant de l'utilisateur" [(ngModel)]="userId"></ion-input>
+
+    <ion-button color="success" (click)="openFilterModal('aujourdhui_utilisateur')">Filtrer</ion-button>
+  </ng-container>
 
   <ion-button color="danger" (click)="closeModal()">Fermer</ion-button>
 </ion-content>

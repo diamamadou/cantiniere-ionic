@@ -2,3 +2,26 @@ ion-content{
  --background: #B7B50D;
   --color: white;
 }
+
+ion-input{
+ background: white;
+ color: black;
+ margin-top: 2px;
+ height: 17%;
+ width: 85%;
+ margin-left: 8%;
+}
+
+ion-datetime{
+ border: solid 1px white;
+ color: white;
+ margin-top: 7px;
+ height: 20%;
+}
+
+ion-item{
+ background: white;
+ color: black;
+ margin-top: 7px;
+ height: 22%;
+}
