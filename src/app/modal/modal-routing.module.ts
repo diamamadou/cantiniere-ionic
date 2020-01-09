@@ -2,12 +2,13 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ModalPage } from './modal.page';
+import {OrderPage} from '../order/order.page';
 
 const routes: Routes = [
   {
     path: '',
     component: ModalPage
-  }
+  },
 ];
 
 @NgModule({

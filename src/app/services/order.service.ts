@@ -64,12 +64,14 @@ export class OrderService {
                 (err) => {console.log('Erreur !'); })
         );
   }
-
+// findAllBetweenInStatus(beginDate, endDate, status): Observable<any>
+  // findAllBetweenInStatus = function(beginDate, endDate, status): Observable<any>
+  // findAllBetweenInStatus = function(beginDate, endDate, status): Observable<any>
   findAllBetweenInStatus(beginDate, endDate, status): Observable<any> {
     const dateDebut = 'beginDate=' + beginDate;
     const dateFin = 'endDate=' + endDate;
-    const statu = 'status=' + status;
-    const url = 'http://localhost:8080/lunchtime/order/findallbetweendateinstatus?' + dateDebut + '&' + dateFin + '&' + statu;
+    const statut = 'status=' + status;
+    const url = 'http://localhost:8080/lunchtime/order/findallbetweendateinstatus?' + dateDebut + '&' + dateFin + '&' + statut;
     return this.http.get(url)
         .pipe(
             tap(data => {},
@@ -86,7 +88,16 @@ export class OrderService {
         );
   }
 
-  handleErr(error: Response) {
+  findAllForUserToday(userId): Observable<any> {
+    const url = 'http://localhost:8080/lunchtime/order/findallforusertoday/' + userId;
+    return this.http.get(url)
+        .pipe(
+            tap(data => {},
+                (err) => { console.log('Erreur !'); })
+        );
+  }
+
+      handleErr(error: Response) {
     if (error.status === 412) {
       // this.router.navigate(['/login']);
       console.log('error412');

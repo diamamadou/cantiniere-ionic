@@ -81,16 +81,18 @@
       Annuler la commande
     </ion-button>
     <ion-button *ngIf="cantiniere && order?.user.wallet >= computedPrice && order?.status === 0" (click)="deliveryAndPay(order?.id, -1)">
-      Délivrer
+      Livrer
     </ion-button>
   </div>
 
-  <div class="ion-text-center">
-  <ion-title>Informations du client</ion-title>
+  <div class="ion-text-center" *ngIf="cantiniere">
+  <ion-text>Informations du client</ion-text><br>
 
   <ion-text color="primary">Prénom: </ion-text> <ion-text class="font-italic">{{order?.user.firstname}}</ion-text><br>
   <ion-text color="primary">Nom: </ion-text> <ion-text class="font-italic">{{order?.user.name}}</ion-text><br>
   <ion-text color="primary">E-mail: </ion-text> <ion-text class="font-italic">{{order?.user.email}}</ion-text><br>
-  <ion-text color="primary">Porte-feuille: </ion-text> <ion-text class="font-italic">{{order?.user.wallet}} €</ion-text>
+  </div>
+  <div class="ion-text-center">
+    <ion-text color="primary">Porte-feuille: </ion-text> <ion-text class="font-italic">{{order?.user.wallet}} €</ion-text>
   </div>
 </ion-content>

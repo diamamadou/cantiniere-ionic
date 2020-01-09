@@ -11,6 +11,13 @@
     <ion-text>Vous n'avez aucune commande !</ion-text>
   </div>
 
+  <div class="ion-text-center">
+    <ion-button (click)="allOrders()">Toutes les commandes</ion-button>
+    <ion-button (click)="openFilterModal('entre_dates')">Entre dates</ion-button>
+    <ion-button (click)="openFilterModal('par_utilisateur')">Par utilisateur</ion-button>
+    <ion-button (click)="openFilterModal('aujourdhui_utilisateur')">Aujourd'hui par utilisateur</ion-button>
+  </div>
+
   <ion-grid *ngIf="orders?.length > 0">
     <ion-row class="ion-text-center">
       <ion-col>
@@ -79,5 +86,34 @@
     </ion-row>
     </ng-container>
   </ion-grid>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" #fab>
+    <ion-fab-button>
+      Filtre
+    </ion-fab-button>
+    <ion-fab-list side="start"><ion-button>Entre dates</ion-button>
+      <ion-button>Par utilisateur</ion-button>
+      <ion-button>Aujourd'hui par utilisateur</ion-button>
+      <!--<ion-fab-button color="vimeo" (click)="openSocial('Vimeo', fab)">
+
+        Entre deux dates
+        <ion-icon name="logo-vimeo"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="google" (click)="openSocial('Google+', fab)">
+        <ion-icon name="logo-googleplus"></ion-icon>
+      </ion-fab-button>-->
+    </ion-fab-list>
+
+    <ion-fab-list side="top">
+      <ion-button>Commandes d'un utilisateur donné</ion-button>
+      <ion-button>Commandes d'aujourd'hui d'un utilisateur donné</ion-button>
+      <!--<ion-fab-button color="twitter" (click)="openSocial('Twitter', fab)">
+        <ion-icon name="logo-twitter"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="facebook" (click)="openSocial('Facebook', fab)">
+        <ion-icon name="logo-facebook"></ion-icon>
+      </ion-fab-button>-->
+    </ion-fab-list>
+  </ion-fab>
 
 </ion-content>

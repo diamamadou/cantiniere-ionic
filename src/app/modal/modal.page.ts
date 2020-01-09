@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NavParams, NavController, ModalController} from '@ionic/angular';
+import {NavParams, ModalController} from '@ionic/angular';
 import {Router} from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-modal',
@@ -15,11 +16,19 @@ export class ModalPage implements OnInit {
   @Input() menuLabel;
   @Input() deliveredAndPayed;
   @Input() orderCanceled;
+  @Input() btnLabel;
 
-  constructor(navParams: NavParams, private modalController: ModalController, private router: Router) {
-    // console.log(navParams.get('name'));
+  beginDate;
+  endDate;
+  status;
+  userId;
+  filterObject;
 
-  }
+  constructor(
+      navParams: NavParams,
+      private modalController: ModalController,
+      private router: Router,
+  ) {}
   ngOnInit() {
   }
 
@@ -33,6 +42,31 @@ export class ModalPage implements OnInit {
   openCart() {
     this.router.navigate(['/cart']);
     this.modalController.dismiss();
+  }
+
+  openFilterModal(filter) {
+    this.beginDate = moment(this.beginDate).format('DD-MM-YYYY');
+    this.endDate = moment(this.endDate).format('DD-MM-YYYY');
+
+    if (filter === 'entre_dates') {
+      this.filterObject = {
+        filter,
+        begin_date: this.beginDate,
+        end_date: this.endDate,
+        status: this.status
+      };
+    } else if (filter === 'par_utilisateur' || filter === 'aujourdhui_utilisateur') {
+      this.filterObject = {
+        filter,
+        user_id: this.userId
+      };
+    }
+
+    this.router.navigate(['/order'], {
+      queryParams: this.filterObject
+    });
+
+    this.closeModal();
   }
 
 }
