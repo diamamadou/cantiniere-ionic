@@ -64,9 +64,7 @@ export class OrderService {
                 (err) => {console.log('Erreur !'); })
         );
   }
-// findAllBetweenInStatus(beginDate, endDate, status): Observable<any>
-  // findAllBetweenInStatus = function(beginDate, endDate, status): Observable<any>
-  // findAllBetweenInStatus = function(beginDate, endDate, status): Observable<any>
+
   findAllBetweenInStatus(beginDate, endDate, status): Observable<any> {
     const dateDebut = 'beginDate=' + beginDate;
     const dateFin = 'endDate=' + endDate;
@@ -97,14 +95,13 @@ export class OrderService {
         );
   }
 
-      handleErr(error: Response) {
-    if (error.status === 412) {
-      // this.router.navigate(['/login']);
-      console.log('error412');
-    } else {
-      console.log(error.status);
-      return Observable.throw(error);
-    }
+  updateOrder(orderId, order): Observable<any> {
+    const url = 'http://localhost:8080/lunchtime/order/update/' + orderId;
+    return this.http.patch(url, order)
+        .pipe(
+            tap(data => {},
+                (err) => {console.log('Erreur !'); })
+        );
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

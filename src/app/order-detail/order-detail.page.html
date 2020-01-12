@@ -40,14 +40,6 @@
           {{order?.id}}
         </ion-col>
       </ion-row>
-        <ion-row>
-          <ion-col aria-colspan="3">
-            Prix Total
-          </ion-col>
-          <ion-col>
-            {{computedPrice}} €
-          </ion-col>
-        </ion-row>
       </ng-container>
 
     <ng-container *ngIf="order?.quantityMeals !== undefined">
@@ -65,6 +57,7 @@
           {{order?.id}}
         </ion-col>
       </ion-row>
+      </ng-container>
       <ion-row>
         <ion-col aria-colspan="3">
           Prix Total
@@ -73,15 +66,17 @@
           {{computedPrice}} €
         </ion-col>
       </ion-row>
-      </ng-container>
   </ion-grid>
 
   <div class="ion-text-center" *ngIf="order?.status === 0">
     <ion-button (click)="cancelOrder(order?.id)">
-      Annuler la commande
+      Annuler
     </ion-button>
     <ion-button *ngIf="cantiniere && order?.user.wallet >= computedPrice && order?.status === 0" (click)="deliveryAndPay(order?.id, -1)">
       Livrer
+    </ion-button>
+    <ion-button (click)="openUpdateOrderModal()">
+      Modifier
     </ion-button>
   </div>
 
@@ -95,4 +90,5 @@
   <div class="ion-text-center">
     <ion-text color="primary">Porte-feuille: </ion-text> <ion-text class="font-italic">{{order?.user.wallet}} €</ion-text>
   </div>
+
 </ion-content>

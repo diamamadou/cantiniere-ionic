@@ -2,6 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {NavParams, ModalController} from '@ionic/angular';
 import {Router} from '@angular/router';
 import * as moment from 'moment';
+import {OrderService} from '../services/order.service';
+import {MenuService} from '../services/menu.service';
+import {MealService} from '../services/meal.service';
 
 @Component({
   selector: 'app-modal',
@@ -17,19 +20,34 @@ export class ModalPage implements OnInit {
   @Input() deliveredAndPayed;
   @Input() orderCanceled;
   @Input() btnLabel;
+  @Input() orderId;
+  @Input() userId;
 
   beginDate;
   endDate;
   status;
-  userId;
   filterObject;
+  menus;
+  menu;
+  meals;
+  meal;
+  selectedMenu;
+  selectedMeal;
 
   constructor(
       navParams: NavParams,
       private modalController: ModalController,
       private router: Router,
+      private menuService: MenuService,
+      private mealService: MealService,
+      private orderService: OrderService,
   ) {}
   ngOnInit() {
+    this.getAllMenusForToday();
+    this.getAllMealsForToday();
+
+    const week = moment('2020-01-25').week();
+    console.log(week);
   }
 
   closeModal() {
@@ -69,4 +87,51 @@ export class ModalPage implements OnInit {
     this.closeModal();
   }
 
+  getAllMenusForToday() {
+    this.menuService.findAllAvailableForToday()
+        .subscribe(data => { this.menus = data; }
+        );
+  }
+
+  getAllMealsForToday() {
+    this.mealService.findAllAvailableForToday()
+        .subscribe(data => { this.meals = data; }
+        );
+  }
+
+  updateOrder() {
+    const meal = this.selectedMeal;
+    const menu = this.selectedMenu;
+    if (this.selectedMenu) {
+      console.log(menu);
+      this.menuService.find(menu)
+          .subscribe(data => {
+            const order = {
+              constraintId: -1,
+              menuId: data.id,
+              userId: this.userId
+            };
+            this.orderService.updateOrder(this.orderId, order).subscribe(updatedOrder => {});
+          });
+    }
+    if (this.selectedMeal) {
+        console.log(meal);
+        this.mealService.findOneMeal(meal)
+            .subscribe(data => {
+              const order = {
+                constraintId: -1,
+                quantityMeals: [
+                  {
+                    mealId: data.id,
+                    quantity: 1,
+                  },
+                ],
+                userId: this.userId
+              };
+              this.orderService.updateOrder(this.orderId, order).subscribe(updatedOrder => {});
+            });
+    }
+    this.closeModal();
+    this.router.navigate(['/order']);
+  }
 }

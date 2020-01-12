@@ -25,7 +25,7 @@
     <ion-item>
       <ion-label>Statut</ion-label>
     <ion-select [(ngModel)]="status">
-      <ion-select-option value="0" [selected]="0">Effectuée</ion-select-option>
+      <ion-select-option value="0" selected>Effectuée</ion-select-option>
       <ion-select-option value="1">Livrée</ion-select-option>
       <ion-select-option value="2">Annulée</ion-select-option>
     </ion-select>
@@ -47,5 +47,32 @@
     <ion-button color="success" (click)="openFilterModal('aujourdhui_utilisateur')">Filtrer</ion-button>
   </ng-container>
 
+  <ion-button color="danger" (click)="closeModal()">Fermer</ion-button>
+</ion-content>
+
+<!-- Update order -->
+
+<ion-content *ngIf="orderId">
+  <ion-list>
+
+    <ion-item>
+      <ion-label>Menus</ion-label>
+      <ion-select multiple="false" cancelText="Annuler" okText="Modfier" [(ngModel)]="selectedMenu">
+        <ng-container *ngFor="let menu of menus">
+          <ion-select-option value="{{menu.id}}">{{menu.label}}</ion-select-option>
+        </ng-container>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Plats</ion-label>
+      <ion-select multiple="false" cancelText="Annuler" okText="Modifier" [(ngModel)]="selectedMeal">
+        <ng-container *ngFor="let meal of meals">
+          <ion-select-option value="{{meal.id}}">{{meal.label}}</ion-select-option>
+        </ng-container>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <ion-button color="success" (click)="updateOrder()">Modifier</ion-button>
   <ion-button color="danger" (click)="closeModal()">Fermer</ion-button>
 </ion-content>
