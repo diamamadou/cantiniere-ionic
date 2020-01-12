@@ -13,9 +13,10 @@ import {ModalController} from '@ionic/angular';
 export class OrderDetailPage implements OnInit {
 
   order;
-  key;
+  orderId;
   computedPrice;
   cantiniere;
+  userId;
 
   constructor(
       private orderService: OrderService,
@@ -24,22 +25,25 @@ export class OrderDetailPage implements OnInit {
       private authService: AuthService,
       private modalController: ModalController) {
     this.route.params
-        .subscribe(params => {this.key = params.id; console.log(params.id); });
+        .subscribe(params => {this.orderId = params.id; console.log(params.id); });
   }
 
   ngOnInit() {
     const userInfos = this.authService.getUserInfo(this.authService.getToken());
-    if (userInfos)
+    if (userInfos) {
       this.cantiniere = userInfos.user.isLunchLady;
+    }
+  }
 
-    this.getOrder(this.key);
-    this.computePrice(this.key, -1);
+  ionViewWillEnter() {
+     this.getOrder(this.orderId);
+     this.computePrice(this.orderId, -1);
   }
 
   getOrder(orderId) {
     this.orderService.getOrder(orderId)
         .subscribe(
-            order => {console.log(order); this.order = order; },
+            order => {console.log(order); this.order = order; this.userId = order.user.id; },
             (err) => console.log('Votre commande n\'a pas été trouvé !'),
         );
   }
@@ -85,5 +89,17 @@ export class OrderDetailPage implements OnInit {
               return await modal.present();
             }
         );
+  }
+
+  async openUpdateOrderModal() {
+      const modal = await this.modalController.create({
+          component: ModalPage,
+          cssClass: 'my-modal',
+          componentProps: {
+              orderId: this.orderId,
+              userId: this.userId,
+            }
+      });
+      return await modal.present();
   }
 }

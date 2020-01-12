@@ -25,10 +25,14 @@ export class CartPage implements OnInit {
 
   ngOnInit() {
     const userInfos = this.authService.getUserInfo(this.authService.getToken());
-    if(userInfos)
+    if (userInfos) {
       this.userId = userInfos.user.id;
-    else
-      console.log('Vous n\'ètes pas connectés')
+    } else {
+      console.log('Vous n\'ètes pas connectés');
+    }
+  }
+
+  ionViewWillEnter() {
     this.showMealCart();
     this.showMenuCart();
   }
@@ -79,20 +83,23 @@ export class CartPage implements OnInit {
         .subscribe(order => { console.log('order'); console.log('this.meal'); },
             (error) => { console.log('Vous ne pouvez pas commander à cette heure / Le nombre de commandes maximum est atteint !'); },
             () => {
-              if (orderType === 'meal')
+              if (orderType === 'meal') {
                 localStorage.removeItem('plat_' + this.meal.id);
-              else
+              } else {
                 localStorage.removeItem('menu_' + this.menu.id);
-              location.reload(); }
+                location.reload();
+              }
+              }
         );
   }
 
   deleteOrder(orderType) {
-    if (orderType === 'meal')
+    if (orderType === 'meal') {
       localStorage.removeItem('plat_' + this.meal.id);
-    else
+    } else {
       localStorage.removeItem('menu_' + this.menu.id);
-    location.reload();
+      location.reload();
+    }
   }
 
 }
