@@ -69,8 +69,8 @@ export class MealService {
   }
 
   // ------------------------------------ Mettre à jour un Plat
-  updateMeal(idMeal: number, meal: Meal): Observable<Meal> {
-    return this.http.patch<Meal>(`${environment.apiUrl}/meal/update/${idMeal}`, meal);
+  updateMeal(meal: Meal, idMeal: number): Observable<Meal> {
+    return this.http.patch<Meal>(`${environment.apiUrl}/meal/update/${idMeal}`, meal, {responseType: 'json'});
   }
 
 

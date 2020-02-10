@@ -29,7 +29,6 @@ export class MealPage implements OnInit {
   apiUrl = environment.apiUrl;
   mealLabel;
   checkedmeal = false;
-
   isModalOpened = false;
 
   ngOnInit() {
@@ -65,14 +64,14 @@ export class MealPage implements OnInit {
   }
   getAllForToday() {
     this.mealsService.findAllAvailableForToday()
-      .subscribe(data => {
+      .subscribe((data) => {
         this.meals = data; console.log('Les plats du jour sont : ');
         this.mealSearch = this.meals;
         data.forEach(element => {
-          // this.todayMeal = element.meals;
           console.log(element.label + '  Prix: ' + element.priceDF);
-        })
-          ;
+        });
+        //this.meals = data; console.log('Les plats du jour sont : ');
+        //this.mealSearch = this.meals;
       });
 
   }
