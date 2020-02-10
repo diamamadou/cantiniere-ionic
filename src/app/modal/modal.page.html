@@ -1,7 +1,7 @@
 <!-- Meal & Menu -->
 <ion-content *ngIf="menuLabel || mealLabel">
-  <p *ngIf="mealLabel">Le {{mealLabel}} a été ajouté dans votre panier</p>
-  <p *ngIf="menuLabel">Le {{menuLabel}} a été ajouté dans votre panier</p>
+  <p *ngIf="mealLabel" class="text-dark">{{mealLabel}} a été ajouté dans votre panier</p>
+  <p *ngIf="menuLabel" class="text-dark">{{menuLabel}} a été ajouté dans votre panier</p>
 
   <ion-button color="danger" (click)="closeModal()">Fermer</ion-button>
   <ion-button color="light" (click)="openCart()">
@@ -20,8 +20,8 @@
 <!-- Order Filter -->
 <ion-content *ngIf="btnLabel">
   <ng-container *ngIf="btnLabel === 'entre_dates'">
-    <ion-datetime displayFormat="DD MMM YYYY" placeholder="Date de début" [(ngModel)]="beginDate"></ion-datetime>
-    <ion-datetime displayFormat="DD MMM YYYY" placeholder="Date de début" [(ngModel)]="endDate"></ion-datetime>
+    <ion-datetime class="text-dark" displayFormat="DD MMM YYYY" placeholder="Date de début" [(ngModel)]="beginDate"></ion-datetime>
+    <ion-datetime class="text-dark" displayFormat="DD MMM YYYY" placeholder="Date de début" [(ngModel)]="endDate"></ion-datetime>
     <ion-item>
       <ion-label>Statut</ion-label>
     <ion-select [(ngModel)]="status">
@@ -73,6 +73,6 @@
       </ion-select>
     </ion-item>
   </ion-list>
-  <ion-button color="success" (click)="updateOrder()">Modifier</ion-button>
+  <ion-button color="success" (click)="confirmAlert()">Modifier</ion-button>
   <ion-button color="danger" (click)="closeModal()">Fermer</ion-button>
 </ion-content>

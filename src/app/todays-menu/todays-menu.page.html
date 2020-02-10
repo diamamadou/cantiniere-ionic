@@ -4,26 +4,48 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-row>
+  <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-left">
+    <ion-searchbar placeholder="rechercher un menu" (ionInput)="searchPlat($event)"></ion-searchbar>
+  </ion-col>
+</ion-row>
+
 <ion-content>
-
+  <ion-fab slot="fixed" vertical="top" horizontal="center" #fab>
+    <ion-fab-button color="danger" (click)="verifChecked()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
   <ion-list>
-      <ion-item *ngFor="let menu of todayMenu | keyvalue">
-          <h5 class="text-uppercase" >Menu du jour!</h5>
-          <ion-item></ion-item>
-          <h6>{{menu.value.label}}</h6>
-          <ion-item>
-              <p class="small"> Description </p>
-              <ion-item></ion-item>
-              <ion-button class="float-right font-weight-bold" (click)="menuDetail(menu.key)">{{menu.value.priceDF}} €</ion-button>
-              <ion-button class="btn -btn-danger" (click)="deleteMenu(menu.id)">Supprimer</ion-button>
-          
-            </ion-item>
-          
+    <ion-item-sliding *ngFor="let menu of todayMenu" #slidingItem>
+      <ion-item>
+        <ion-checkbox *ngIf="checkedmeal" color="success" slot="start"></ion-checkbox>
+        <ion-thumbnail slot="start">
+          <ion-img src="{{apiUrl}}/img/meal/Hamburger maison.png" alt=""></ion-img>
+        </ion-thumbnail>
+        <ion-label> 
+          {{menu?.label}}
+        </ion-label>
+
+        <div class="item-note" slot="end">
+          <ion-button class="float-right font-weight-bold" color="success" (click)="menuDetail(menu?.id)">
+            {{menu?.priceDF}} €
+          </ion-button>
+        </div>
       </ion-item>
+
+      <ion-item-options side='start'>
+        <ion-item-option color="secondary" (click)="onEdit(menu?.id,slidingItem)">
+          <ion-icon name="create" slot="icon-only"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+      <ion-item-options side='end'>
+        <ion-item-option color="warning" (click)="addToCart(menu?.id,slidingItem)">
+          <ion-icon name="basket" slot="icon-only"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+
+    </ion-item-sliding>
   </ion-list>
-
-
-
-
 </ion-content>
 

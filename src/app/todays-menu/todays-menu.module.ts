@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { TodaysMenuPageRoutingModule } from './todays-menu-routing.module';
 
 import { TodaysMenuPage } from './todays-menu.page';
+import { ModalPageModule } from '../modal/modal.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TodaysMenuPageRoutingModule
+    TodaysMenuPageRoutingModule,
+    ModalPageModule
   ],
   declarations: [TodaysMenuPage]
 })

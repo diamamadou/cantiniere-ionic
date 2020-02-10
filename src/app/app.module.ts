@@ -12,7 +12,8 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor } from './helpers/error-interceptor';
-import {JwtInterceptor} from './helpers/jwt-interceptor';
+import { JwtInterceptor } from './helpers/jwt-interceptor';
+import { Camera } from '@ionic-native/camera/ngx'
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +26,7 @@ import {JwtInterceptor} from './helpers/jwt-interceptor';
   providers: [
     StatusBar,
     SplashScreen,
+    Camera,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HTTP_INTERCEPTORS,

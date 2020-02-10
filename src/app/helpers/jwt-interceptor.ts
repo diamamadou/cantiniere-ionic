@@ -2,6 +2,7 @@ import {HttpEvent, HttpInterceptor, HttpHandler, HttpRequest} from '@angular/com
 import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {AuthService} from '../services/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -24,17 +25,17 @@ export class JwtInterceptor implements HttpInterceptor {
 
     private noAuthorizationNeeded(req) {
       const urls = [
-          'http://localhost:8080/lunchtime/meal/findallavailablefortoday',
-          'http://localhost:8080/lunchtime/menu/findallavailablefortoday',
-          'http://localhost:8080/lunchtime/meal/findallavailableforweek/',
-          'http://localhost:8080/lunchtime/menu/findallavailableforweek/',
-          'http://localhost:8080/lunchtime/menu/find/',
-          'http://localhost:8080/lunchtime/meal/find/',
-          'http://localhost:8080/lunchtime/user/register',
-          'http://localhost:8080/lunchtime/forgotpassword',
-          'http://localhost:8080/lunchtime/ingredient/find/',
-          'http://localhost:8080/lunchtime/constraint/find/',
-          'http://localhost:8080/lunchtime/constraint/findall',
+          environment.apiUrl + '/meal/findallavailablefortoday',
+          environment.apiUrl + '/menu/findallavailablefortoday',
+          environment.apiUrl + '/meal/findallavailableforweek/',
+          environment.apiUrl + '/menu/findallavailableforweek/',
+          environment.apiUrl + '/menu/find/',
+          environment.apiUrl + '/meal/find/',
+          environment.apiUrl + '/user/register',
+          environment.apiUrl + '/forgotpassword',
+          environment.apiUrl + '/ingredient/find/',
+          environment.apiUrl + '/constraint/find/',
+          environment.apiUrl + '/constraint/findall',
       ];
 
       let nonProtectedUrl = null;

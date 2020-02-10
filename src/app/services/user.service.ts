@@ -3,6 +3,7 @@ import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {catchError, shareReplay, tap} from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class UserService {
 
   constructor(private http: HttpClient, private router: Router) { }
   getFindAll(): Observable<any> {
-    const url = 'http://localhost:8080/lunchtime/user/findall';
+    const url = environment.apiUrl + '/user/findall';
     return this.http.get(url, {responseType: 'json'})
      .pipe(
        tap( user => {

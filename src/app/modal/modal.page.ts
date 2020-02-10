@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NavParams, ModalController} from '@ionic/angular';
+import {NavParams, ModalController, AlertController} from '@ionic/angular';
 import {Router} from '@angular/router';
 import * as moment from 'moment';
 import {OrderService} from '../services/order.service';
@@ -41,13 +41,19 @@ export class ModalPage implements OnInit {
       private menuService: MenuService,
       private mealService: MealService,
       private orderService: OrderService,
+      private alertController: AlertController
   ) {}
+
   ngOnInit() {
     this.getAllMenusForToday();
     this.getAllMealsForToday();
 
     const week = moment('2020-01-25').week();
     console.log(week);
+  }
+
+  ionViewWillLeave(){
+    this.closeModal();
   }
 
   closeModal() {
@@ -131,7 +137,47 @@ export class ModalPage implements OnInit {
               this.orderService.updateOrder(this.orderId, order).subscribe(updatedOrder => {});
             });
     }
-    this.closeModal();
-    this.router.navigate(['/order']);
+    this.confirmedAlert();
+  }
+
+  async confirmAlert() {
+    const alert = await this.alertController.create({
+      header: 'Confirmation',
+      message: 'Voulez-vous confirmer l\'annulation de cette commande ?',
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          cssClass: 'danger',
+          handler: () => {
+            console.log('canceled');
+          }
+        }, {
+          text: 'Confirmer',
+          cssClass: 'success',
+          handler: () => { this.updateOrder()
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async confirmedAlert() {
+    const alert = await this.alertController.create({
+      header: 'Confirmé',
+      message: 'Votre commande a été annulé ',
+      buttons: [
+        {
+          text: 'OK',
+          cssClass: 'danger',
+          handler: () => {
+            this.closeModal();
+            this.router.navigate(['/order']);
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {tap} from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class OrderService {
   constructor(private http: HttpClient) { }
 
   addOrder(order): Observable <any> {
-    const url = 'http://localhost:8080/lunchtime/order/add';
+    const url = environment.apiUrl + '/order/add';
     return this.http.put(url, order, {responseType: 'json'})
         .pipe(
             tap(orderObject => {},
@@ -20,7 +21,7 @@ export class OrderService {
   }
 
   cancelOrder(orderId): Observable<any> {
-    const url = 'http://localhost:8080/lunchtime/order/cancel/' + orderId;
+    const url = environment.apiUrl + '/order/cancel/' + orderId;
     return this.http.patch(url, {responseType: 'json'})
         .pipe(
             tap(data => {
@@ -30,7 +31,7 @@ export class OrderService {
   }
 
   computePrice(orderId, constraintId): Observable<any> {
-    const url = 'http://localhost:8080/lunchtime/order/computeprice/' + orderId + '/' + constraintId;
+    const url = environment.apiUrl + '/order/computeprice/' + orderId + '/' + constraintId;
     return this.http.get(url, {responseType: 'json'})
         .pipe(
             tap(data => {},
@@ -39,7 +40,7 @@ export class OrderService {
   }
 
   deliveryAndPay(orderId, constraintId): Observable<any> {
-    const url = 'http://localhost:8080/lunchtime/order/deliverandpay/' + orderId + '/' + constraintId;
+    const url = environment.apiUrl + '/order/deliverandpay/' + orderId + '/' + constraintId;
     return this.http.patch(url, {responseType: 'json'})
         .pipe(
             tap(data => {},
@@ -48,7 +49,7 @@ export class OrderService {
   }
 
   getOrder(orderId): Observable<any> {
-    const url = 'http://localhost:8080/lunchtime/order/find/' + orderId;
+    const url = environment.apiUrl + '/order/find/' + orderId;
     return this.http.get(url, {responseType: 'json'})
         .pipe(
             tap(data => {},
@@ -57,7 +58,7 @@ export class OrderService {
   }
 
   findAll(): Observable<any> {
-    const url = 'http://localhost:8080/lunchtime/order/findall';
+    const url = environment.apiUrl + '/order/findall';
     return this.http.get(url, {responseType: 'json'})
         .pipe(
             tap(data => {},
@@ -69,7 +70,7 @@ export class OrderService {
     const dateDebut = 'beginDate=' + beginDate;
     const dateFin = 'endDate=' + endDate;
     const statut = 'status=' + status;
-    const url = 'http://localhost:8080/lunchtime/order/findallbetweendateinstatus?' + dateDebut + '&' + dateFin + '&' + statut;
+    const url = environment.apiUrl + '/order/findallbetweendateinstatus?' + dateDebut + '&' + dateFin + '&' + statut;
     return this.http.get(url)
         .pipe(
             tap(data => {},
@@ -78,7 +79,7 @@ export class OrderService {
   }
 
   findAllForUser(userId): Observable<any> {
-    const url = 'http://localhost:8080/lunchtime/order/findallforuser/' + userId;
+    const url = environment.apiUrl + '/order/findallforuser/' + userId;
     return this.http.get(url)
         .pipe(
             tap(data => {},
@@ -87,7 +88,7 @@ export class OrderService {
   }
 
   findAllForUserToday(userId): Observable<any> {
-    const url = 'http://localhost:8080/lunchtime/order/findallforusertoday/' + userId;
+    const url = environment.apiUrl + '/order/findallforusertoday/' + userId;
     return this.http.get(url)
         .pipe(
             tap(data => {},
@@ -96,7 +97,7 @@ export class OrderService {
   }
 
   updateOrder(orderId, order): Observable<any> {
-    const url = 'http://localhost:8080/lunchtime/order/update/' + orderId;
+    const url = environment.apiUrl + '/order/update/' + orderId;
     return this.http.patch(url, order)
         .pipe(
             tap(data => {},

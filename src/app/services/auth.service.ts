@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {catchError, tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import * as jwt_decode from 'jwt-decode';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   register(user): Observable<any> {
-    const url = 'http://localhost:8080/lunchtime/user/register';
+    const url = environment.apiUrl + '/user/register';
     return this.http.post(url, user, {responseType: 'json'})
         .pipe(
             tap( product => {console.log(product); console.log(user); }),
@@ -21,7 +22,7 @@ export class AuthService {
   }
 
   logIn(user): Observable<any> {
-    const url = 'http://localhost:8080/lunchtime/login';
+    const url = environment.apiUrl + '/login';
     return this.http.post(url, user, {observe: 'response'})
         .pipe(
             tap( token => {
@@ -36,7 +37,7 @@ export class AuthService {
   }
 
   forgotPassword(email): Observable<any> {
-    const url = 'http://localhost:8080/lunchtime/forgotpassword?email=' + email;
+    const url = environment.apiUrl + '/forgotpassword?email=' + email;
     return this.http.post(url, email)
         .pipe(
             tap( data => {  }),

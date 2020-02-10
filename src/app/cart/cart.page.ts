@@ -3,6 +3,8 @@ import {MealService} from '../services/meal.service';
 import {OrderService} from '../services/order.service';
 import {AuthService} from '../services/auth.service';
 import {MenuService} from '../services/menu.service';
+import {AlertController} from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-basket',
@@ -15,12 +17,15 @@ export class CartPage implements OnInit {
   menu;
   newOrder;
   userId;
+  confirmModal;
 
   constructor(
       private mealService: MealService,
       private orderService: OrderService,
       private authService: AuthService,
-      private menuService: MenuService
+      private menuService: MenuService,
+      private alertController: AlertController,
+      private router: Router,
   ) { }
 
   ngOnInit() {
@@ -85,20 +90,105 @@ export class CartPage implements OnInit {
             () => {
               if (orderType === 'meal') {
                 localStorage.removeItem('plat_' + this.meal.id);
+                this.confirmedAlert();
               } else {
                 localStorage.removeItem('menu_' + this.menu.id);
-                location.reload();
+                this.confirmedAlert();
+                //location.reload();
               }
               }
         );
   }
 
+  async confirmAlert(orderType) {
+    const alert = await this.alertController.create({
+      header: 'Confirmation',
+      message: 'Voulez-vous confirmer cette commande ?',
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          cssClass: 'danger',
+          handler: (cancel) => {
+            console.log('canceled');
+          }
+        }, {
+          text: 'Confirmer',
+          cssClass: 'success',
+          handler: () => { this.addOrder(orderType)
+            console.log(this.meal);
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async confirmedAlert() {
+    const alert = await this.alertController.create({
+      header: 'Confirmé',
+      message: 'Votre commande a été effectuée ',
+      buttons: [
+        {
+          text: 'OK',
+          cssClass: 'danger',
+          handler: () => {
+            this.router.navigate(['/order']);
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async deleteAlert(orderType) {
+    const alert = await this.alertController.create({
+      header: 'Suppression',
+      message: 'Voulez-vous confirmer la suppression de cette commande ?',
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          cssClass: 'danger',
+          handler: () => {
+            console.log('canceled');
+          }
+        }, {
+          text: 'Confirmer',
+          cssClass: 'success',
+          handler: () => { this.deleteOrder(orderType)
+            console.log(this.meal);
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async deletedAlert() {
+    const alert = await this.alertController.create({
+      header: 'Confirmé',
+      message: 'Votre commande a été supprimé ',
+      buttons: [
+        {
+          text: 'OK',
+          cssClass: 'success',
+          handler: () => {
+            location.reload();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
   deleteOrder(orderType) {
     if (orderType === 'meal') {
       localStorage.removeItem('plat_' + this.meal.id);
+      this.deletedAlert();
     } else {
       localStorage.removeItem('menu_' + this.menu.id);
-      location.reload();
+      this.deletedAlert();
     }
   }
 

@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<!-- <ion-content>
 
     <ion-list>
         <ion-item *ngFor="let plat of mealDay" class="d-flex align-content-center p-1">>
@@ -19,4 +19,45 @@
        <ion-button class="float-center font-weight-bold" (click)="addToCart(menuId, null)">Ajouter au panier</ion-button>
     </ion-list>
 
+</ion-content> -->
+
+<ion-content>
+  <ion-grid class="ion-text-center">
+    <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
+        <ion-card *ngFor="let meal of mealDay">
+          <ion-card-header>
+            <ion-card-title>{{meal?.label}}</ion-card-title>
+            <ion-card-subtitle>Prix {{meal?.priceDF}} €</ion-card-subtitle>
+          </ion-card-header>
+          <ion-img src="{{apiUrl}}/{{meal?.image}}"></ion-img>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-button class="float-center font-weight-bold" color="success" (click)="addToCart(menuId, null)">Ajouter au panier</ion-button>
+  </ion-grid>
+
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" #fab>
+    <ion-fab-button>
+      <ion-icon name="share"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="start">
+      <ion-fab-button color="vimeo" (click)="openSocial('Vimeo', fab)">
+        <ion-icon name="logo-vimeo"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="google" (click)="openSocial('Google+', fab)">
+        <ion-icon name="logo-googleplus"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+
+    <ion-fab-list side="top">
+      <ion-fab-button color="twitter" (click)="openSocial('Twitter', fab)">
+        <ion-icon name="logo-twitter"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="facebook" (click)="openSocial('Facebook', fab)">
+        <ion-icon name="logo-facebook"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>

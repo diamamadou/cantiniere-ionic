@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MealService } from '../services/meal.service';
 import { environment } from 'src/environments/environment';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, IonItemSliding, ModalController } from '@ionic/angular';
+import { ModalPage } from '../modal/modal.page';
 
 @Component({
   selector: 'app-detail-meal',
@@ -13,17 +14,28 @@ export class DetailMealPage implements OnInit {
   IdPlat;
   meal;
   apiUrl = environment.apiUrl;
+  mealLabel;
+
+  isModalOpened = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private serviceMeal: MealService,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {
     this.route.params
       .subscribe(params => { this.IdPlat = params.IdPlat; console.log(params.IdPlat); });
     this.getOneMeal(this.IdPlat);
+  }
+
+  ionViewWillLeave(){
+    // permet de fermer le modal en quittant un view s'il est ouvert
+    if(this.isModalOpened)
+    this.modalController.dismiss();
   }
 
   getOneMeal(IdPlat) {
@@ -41,6 +53,27 @@ export class DetailMealPage implements OnInit {
     await loading.present();
     await loading.onWillDismiss();
     fab.close();
+  }
+
+  addToCart(mealId, slidingItem: IonItemSliding) {
+    this.isModalOpened = true;
+    if (slidingItem)
+        slidingItem.close();
+    console.log(mealId);
+    this.serviceMeal.findOneMeal(mealId)
+        .subscribe(
+              async meal => { this.mealLabel = meal.label; localStorage.setItem('plat_' + mealId, meal.label + ' ' + mealId); },
+              (error) => {},
+              async () => {
+                const modal = await this.modalController.create({
+                  component: ModalPage,
+                  cssClass: 'my-modal',
+                  componentProps: {
+                    mealLabel: this.mealLabel
+                  }
+                });
+                return await modal.present();
+        });
   }
 
 }
