@@ -3,8 +3,8 @@ import { environment } from 'src/environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MealService } from '../services/meal.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx'
-//import * as fs from 'fs-extra';
-//const fs = require('fs-extra')
+import { IngredientsService } from '../ingredients.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-edit-meal',
@@ -16,34 +16,49 @@ export class EditMealPage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private serviceMeal: MealService,
+    private ingredientService: IngredientsService,
     private camera: Camera
   ) { }
 
-  IdPlat;
+  mealId;
   meal;
   apiUrl = environment.apiUrl;
   capturedPictureUrl: string;
+  ingredientList;
+  ingred;
+  availableForWeeks;
+  mealImage;
 
-  ngOnInit() {console.log(this.capturedPictureUrl)
+  ngOnInit() {
     this.route.params
-      .subscribe(params => { this.IdPlat = params.IdPlat; console.log(params.IdPlat); });
-    this.getOneMeal(this.IdPlat);
+      .subscribe(params => { this.mealId = params.IdPlat; console.log(params.IdPlat); });
+    this.getOneMeal(this.mealId);
+
+    this.getIngredients();
   }
 
-  getOneMeal(IdPlat) {
-    this.serviceMeal.findOneMeal(IdPlat)
+  getOneMeal(mealId) {
+    this.serviceMeal.findOneMeal(mealId)
       .subscribe(
-        meal => { console.log(meal); this.meal = meal; },
+        meal => { console.log(meal); this.meal = meal; this.mealImage = meal.image},
         (err) => console.log('Votre plat n\'a pas été trouvé !'),
       );
   }
 
-  edit(form) {
+  getIngredients() {
+    this.ingredientService.getIngredients()
+      .subscribe(data => {this.ingredientList = data})
+  }
+
+  edit(form) {console.log(form.form.value.availableForWeeks);
+    const weeknumber = moment(form.form.value.availableForWeeks, "YYYYMMDD").week();
+    //console.log(weeknumber);
+    form.form.value.availableForWeeks = [weeknumber];
     console.log(form.form.value);
-    // this.serviceMeal.updateMeal(form.form.value, this.IdPlat)
-    //   .subscribe(data => {
-    //     this.router.navigate(['/home']);
-    //   });
+    this.serviceMeal.updateMeal(form.form.value, this.mealId)
+      .subscribe(data => {
+        this.router.navigate(['/meal']);
+      });
   }
 
   compareWithFn = (o1, o2) => {
@@ -68,6 +83,7 @@ export class EditMealPage implements OnInit {
     }, (err) => {
       console.log(err)
     });
+    this.mealImage = this.capturedPictureUrl;
   }
 
 }

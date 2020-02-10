@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://172.20.10.3:8080/lunchtime'
+  apiUrl: 'http://10.94.200.18:8080/lunchtime'
 };
 
 /*

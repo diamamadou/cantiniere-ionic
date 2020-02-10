@@ -23,12 +23,20 @@
               <ion-input name="label" [ngModel]="meal?.label" required></ion-input>
             </ion-item>
             <ion-item>
+              <ion-label position="floating">Description</ion-label>
+              <ion-input name="description" [ngModel]="meal?.description" required></ion-input>
+            </ion-item> <br>
+            <ion-item>
+              <ion-label position="floating">Disponible la semaine</ion-label>
+              <ion-input type="date" name="availableForWeeks" [ngModel]="availableForWeeks"></ion-input>
+            </ion-item> <br>
+            <ion-item>
               <ion-label position="floating">Prix</ion-label>
-              <ion-input name="Prix" [ngModel]="meal?.priceDF" required></ion-input>
+              <ion-input name="priceDF" [ngModel]="meal?.priceDF" required></ion-input>
             </ion-item> <br>
             <ion-item>
               <ion-label position="floating">Image</ion-label>
-              <ion-input name="image" [ngModel]="meal?.image" required>hello</ion-input>
+              <ion-input name="image" [ngModel]="mealImage" required></ion-input>
             </ion-item> <br>
 
             <ion-list>
@@ -36,10 +44,10 @@
 
               <ion-item>
                 <ion-label>Liste des ingrédients</ion-label>
-                <ion-select value="notifications" interface="action-sheet" multiple="true" [compareWith]="compareWith">
-                  <span *ngFor="let ingred of meal?.ingredients">
-                    <ion-select-option>
-                      {{ingred?.label}}
+                <ion-select name="ingredientsId" [(ngModel)]="ingred" multiple="true" >
+                  <span *ngFor="let ingredient of ingredientList">
+                    <ion-select-option value="{{ingredient.id}}">
+                      {{ingredient?.label}}
                     </ion-select-option>
                   </span>
 

@@ -15,6 +15,8 @@ export class DetailMealPage implements OnInit {
   meal;
   apiUrl = environment.apiUrl;
   mealLabel;
+  mealImg;
+  isBase64Img;
 
   isModalOpened = false;
 
@@ -41,7 +43,12 @@ export class DetailMealPage implements OnInit {
   getOneMeal(IdPlat) {
     this.serviceMeal.findOneMeal(IdPlat)
       .subscribe(
-        meal => { console.log(meal); this.meal = meal; },
+        meal => { console.log(meal); this.meal = meal;  this.mealImg = meal.image;
+          if(meal.image.startsWith('data')){
+            this.isBase64Img = true;
+          } else {
+            this.isBase64Img = false;
+          };},
         (err) => console.log('Votre plat n\'a pas été trouvé !'),
       );
   }

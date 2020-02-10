@@ -21,33 +21,35 @@
     </ion-fab-button>
   </ion-fab>
   <ion-list>
-    <ion-item-sliding *ngFor="let plat of mealSearch | keyvalue" #slidingItem>
+    <ion-item-sliding *ngFor="let plat of mealSearch" #slidingItem>
       <ion-item>
         <ion-checkbox *ngIf="checkedmeal" color="success" slot="start"></ion-checkbox>
         <ion-thumbnail slot="start">
-          <ion-img src="{{apiUrl}}/{{plat.value.image}}" alt=""></ion-img>
+          <ion-img *ngIf="plat?.image?.includes('data')" [src]="plat?.image"></ion-img>
+          <ion-img *ngIf="plat?.image?.includes('img/meal')" src="{{apiUrl}}/{{plat?.image}}" alt=""></ion-img>
         </ion-thumbnail>
-        <ion-label> {{ plat.value.label }}</ion-label>
+        <ion-label> {{ plat.label }}</ion-label>
 
         <div class="item-note" slot="end">
-          <ion-button class="float-right font-weight-bold" [routerLink]="['/meal','detail',plat.value.id]">
-            {{plat.value.priceDF}} €
+          <ion-button class="float-right font-weight-bold" [routerLink]="['/meal','detail',plat.id]">
+            {{plat.priceDF}} €
           </ion-button>
         </div>
       </ion-item>
 
       <ion-item-options side='start'>
-        <ion-item-option color="secondary" (click)="onEdit(plat.value.id,slidingItem)">
+        <ion-item-option color="secondary" (click)="onEdit(plat.id,slidingItem)">
           <ion-icon name="create" slot="icon-only"></ion-icon>
         </ion-item-option>
       </ion-item-options>
       <ion-item-options side='end'>
-        <ion-item-option color="danger" (click)="addToCart(plat.value.id,slidingItem)">
+        <ion-item-option color="danger" (click)="addToCart(plat.id,slidingItem)">
           <ion-icon name="basket" slot="icon-only"></ion-icon>
         </ion-item-option>
       </ion-item-options>
 
     </ion-item-sliding>
+
   </ion-list>
   <!--
     <div *ngIf="selectedItem" padding>
