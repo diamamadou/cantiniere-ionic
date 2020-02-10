@@ -3,6 +3,7 @@ import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {catchError, shareReplay, tap} from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class MenuService {
   constructor(private http: HttpClient, private router: Router) { }
   
   findAllAvailableForToday(): Observable<any> {
-    const url = 'http://localhost:8080/lunchtime/menu/findallavailablefortoday';
+    const url = environment.apiUrl + '/menu/findallavailablefortoday';
     return this.http.get(url, {responseType: 'json'})
      .pipe(
        tap( menu => {
@@ -24,7 +25,7 @@ export class MenuService {
 
 
   findAllavailableForWeek(weekNumber): Observable<any> {
-    const urlFindForWeek = 'http://localhost:8080/lunchtime/menu/findallavailableforeek'+"/" +weekNumber;
+    const urlFindForWeek = environment.apiUrl + '/menu/findallavailableforeek'+"/" +weekNumber;
     return this.http.get(urlFindForWeek, {responseType: 'json'})
      .pipe(
        tap( menu => {
@@ -37,7 +38,7 @@ export class MenuService {
 
 
   find(menuId): Observable<any> {
-    const urlFind = 'http://localhost:8080/lunchtime/menu/find'+"/" +menuId;
+    const urlFind = environment.apiUrl + '/menu/find'+"/" +menuId;
     return this.http.get(urlFind, {responseType: 'json'})
      .pipe(
        tap( menu => {
@@ -49,7 +50,7 @@ export class MenuService {
 
 
   findAll(): Observable<any> {
-    const urlFindAll = 'http://localhost:8080/lunchtime/menu/findAll';
+    const urlFindAll = environment.apiUrl + '/menu/findAll';
     return this.http.get(urlFindAll, {responseType: 'json'})
      .pipe(
        tap( menu => {

@@ -3,7 +3,7 @@ import {OrderService} from '../services/order.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../services/auth.service';
 import {ModalPage} from '../modal/modal.page';
-import {ModalController} from '@ionic/angular';
+import {ModalController, AlertController} from '@ionic/angular';
 
 @Component({
   selector: 'app-order-detail',
@@ -17,13 +17,15 @@ export class OrderDetailPage implements OnInit {
   computedPrice;
   cantiniere;
   userId;
+  isModalOpened = false;
 
   constructor(
       private orderService: OrderService,
       private route: ActivatedRoute,
       private router: Router,
       private authService: AuthService,
-      private modalController: ModalController) {
+      private modalController: ModalController,
+      private alertController: AlertController) {
     this.route.params
         .subscribe(params => {this.orderId = params.id; console.log(params.id); });
   }
@@ -38,6 +40,12 @@ export class OrderDetailPage implements OnInit {
   ionViewWillEnter() {
      this.getOrder(this.orderId);
      this.computePrice(this.orderId, -1);
+  }
+
+  ionViewWillLeave(){
+    // permet de fermer le modal en quittant un view s'il est ouvert
+    if(this.isModalOpened)
+      this.modalController.dismiss();
   }
 
   getOrder(orderId) {
@@ -60,16 +68,7 @@ export class OrderDetailPage implements OnInit {
     this.orderService.cancelOrder(orderId)
         .subscribe(order => {  },
             (error) => { console.log('Votre commande n\'a pas été trouvé !'); },
-            async () => {
-              const modal = await this.modalController.create({
-                component: ModalPage,
-                cssClass: 'my-modal',
-                componentProps: {
-                  orderCanceled: true
-                }
-              });
-              return await modal.present();
-            }
+             () => { this.confirmedCancelAlert(); }
         );
   }
 
@@ -78,28 +77,99 @@ export class OrderDetailPage implements OnInit {
         .subscribe(
             order => { console.log(order); },
             err => { console.log('Vous n\'avez assez d\'argent :)'); },
-            async () => {
-              const modal = await this.modalController.create({
-                component: ModalPage,
-                cssClass: 'my-modal',
-                componentProps: {
-                  deliveredAndPayed: true
-                }
-              });
-              return await modal.present();
-            }
+            () => { this.confirmedDeliverAndPayAlert(); }
         );
   }
 
   async openUpdateOrderModal() {
-      const modal = await this.modalController.create({
-          component: ModalPage,
-          cssClass: 'my-modal',
-          componentProps: {
-              orderId: this.orderId,
-              userId: this.userId,
-            }
-      });
-      return await modal.present();
+    this.isModalOpened = true;
+    const modal = await this.modalController.create({
+        component: ModalPage,
+        cssClass: 'my-modal',
+        componentProps: {
+            orderId: this.orderId,
+            userId: this.userId,
+          }
+    });
+    return await modal.present();
+  }
+
+  async confirmCancelAlert(orderId) {
+    const alert = await this.alertController.create({
+      header: 'Confirmation',
+      message: 'Voulez-vous confirmer l\'annulation de cette commande ?',
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          cssClass: 'danger',
+          handler: () => {
+            console.log('canceled');
+          }
+        }, {
+          text: 'Confirmer',
+          cssClass: 'success',
+          handler: () => { this.cancelOrder(orderId)
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async confirmedCancelAlert() {
+    const alert = await this.alertController.create({
+      header: 'Confirmé',
+      message: 'Votre commande a été annulé ',
+      buttons: [
+        {
+          text: 'OK',
+          cssClass: 'danger',
+          handler: () => {
+            this.router.navigate(['/order']);
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async confirmDeliverAndPayAlert(orderId, constraintId) {
+    const alert = await this.alertController.create({
+      header: 'Confirmation',
+      message: 'Voulez-vous confirmer la livraison de cette commande ?',
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          cssClass: 'danger',
+          handler: () => {
+            console.log('canceled');
+          }
+        }, {
+          text: 'Confirmer',
+          cssClass: 'success',
+          handler: () => { this.deliveryAndPay(orderId, constraintId) }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async confirmedDeliverAndPayAlert() {
+    const alert = await this.alertController.create({
+      header: 'Confirmé',
+      message: 'La commande a été payée et livrée',
+      buttons: [
+        {
+          text: 'OK',
+          cssClass: 'danger',
+          handler: () => {
+            this.router.navigate(['/order']);
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

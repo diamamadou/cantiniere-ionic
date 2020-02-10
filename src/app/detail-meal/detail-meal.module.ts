@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { DetailMealPageRoutingModule } from './detail-meal-routing.module';
 
 import { DetailMealPage } from './detail-meal.page';
+import { ModalPageModule } from '../modal/modal.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DetailMealPageRoutingModule
+    DetailMealPageRoutingModule,
+    ModalPageModule,
   ],
   declarations: [DetailMealPage]
 })

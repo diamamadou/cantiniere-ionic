@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import {IonItemSliding, ModalController} from '@ionic/angular';
 import {ModalPage} from '../modal/modal.page';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-todays-menu',
@@ -18,6 +19,9 @@ export class TodaysMenuPage implements OnInit {
   errors;
   userInfo;
   menuLabel;
+  apiUrl = environment.apiUrl;
+
+  isModalOpened = false;
 
   constructor(private menuService: MenuService, private route: ActivatedRoute, private router: Router, private authService: AuthService, private modalController: ModalController) {
     this.route.params
@@ -26,6 +30,12 @@ export class TodaysMenuPage implements OnInit {
 
   ngOnInit() {
     this.getAllForToday();
+  }
+
+  ionViewWillLeave(){
+    // permet de fermer le modal en quittant un view s'il est ouvert
+    if(this.isModalOpened)
+    this.modalController.dismiss();
   }
 
   getAllForToday() {
@@ -47,15 +57,17 @@ export class TodaysMenuPage implements OnInit {
   }
 
   menuDetail(id) {
-    this.menuService.findAllAvailableForToday()
+    // this.menuService.findAllAvailableForToday()
 
-      .subscribe(data => {
-      this.todayMeal = data[id]; // console.log(data[id]);
-      },
-        error => { this.errors = error; },
-        () => { this.router.navigate(['/detail-menu-jour/' + id]); }
-      );
+    //   .subscribe(data => {
+    //   this.todayMeal = data[id]; // console.log(data[id]);
+    //   },
+    //     error => { this.errors = error; },
+    //     () => { this.router.navigate(['/detail-menu-jour/' + id]); }
+    //   );
+    this.router.navigate(['/detail-menu-jour/' + id]);
   }
+
   deleteMenu(menuId) {
     this.menuService.deleteMenu(menuId)
       .subscribe(data => { });
@@ -96,25 +108,24 @@ export class TodaysMenuPage implements OnInit {
    this.userInfo = this.authService.getUserInfo(this.authService.getToken());
    }
 
-  addToCart(mealId, slidingItem: IonItemSliding) {
+  addToCart(menuId, slidingItem: IonItemSliding) {
+    this.isModalOpened = true;
     slidingItem.close();
-    console.log(mealId);
-    /*this.menuService.find(mealId)
+    console.log(menuId);
+    this.menuService.find(menuId)
         .subscribe(
-            async meal => { this.menuLabel = meal.label; localStorage.setItem('plat_' + mealId, meal.label + ' ' + mealId); },
+            async meal => { this.menuLabel = meal.label; localStorage.setItem('menu_' + menuId, meal.label + ' ' + menuId); },
             (error) => {},
             async () => {
               const modal = await this.modalController.create({
                 component: ModalPage,
                 cssClass: 'my-modal',
                 componentProps: {
-                  name: 'T0X',
-                  email: 'mamsodia',
-                  mealLabel: this.menuLabel
+                  menuLabel: this.menuLabel
                 }
               });
               return await modal.present();
-            });*/
+            });
   }
 
 }

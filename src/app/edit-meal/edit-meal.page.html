@@ -7,7 +7,6 @@
 
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <ion-grid>
     <form (ngSubmit)="edit(f)" #f="ngForm">
@@ -29,7 +28,7 @@
             </ion-item> <br>
             <ion-item>
               <ion-label position="floating">Image</ion-label>
-              <ion-input name="image" [ngModel]="meal?.image" required></ion-input>
+              <ion-input name="image" [ngModel]="meal?.image" required>hello</ion-input>
             </ion-item> <br>
 
             <ion-list>
@@ -49,6 +48,7 @@
             </ion-list>
           </ion-card>
           <div class="ion-margin">
+            <ion-button type="button" expand="block" (click)="takePicture()">Photo</ion-button>
             <ion-button type="submit" expand="block">Modifier</ion-button>
             <ion-button type="button" expand="block" color="danger" (click)="delete()">Annuler
             </ion-button>
@@ -63,5 +63,6 @@
     </form>
 
   </ion-grid>
+  <ion-img [src]="capturedPictureUrl" *ngIf="capturedPictureUrl"></ion-img>
 
 </ion-content>

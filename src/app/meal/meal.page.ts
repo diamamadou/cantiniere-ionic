@@ -30,8 +30,16 @@ export class MealPage implements OnInit {
   mealLabel;
   checkedmeal = false;
 
+  isModalOpened = false;
+
   ngOnInit() {
     this.getAllForToday();
+  }
+
+  ionViewWillLeave(){
+    // permet de fermer le modal en quittant un view s'il est ouvert
+    if(this.isModalOpened)
+    this.modalController.dismiss();
   }
 
   // ngOnInit() {
@@ -85,23 +93,24 @@ export class MealPage implements OnInit {
 
   }
 
-   addToCart(mealId, slidingItem: IonItemSliding) {
-    slidingItem.close();
-    console.log(mealId);
-    this.mealsService.findOneMeal(mealId)
-        .subscribe(
-            async meal => { this.mealLabel = meal.label; localStorage.setItem('plat_' + mealId, meal.label + ' ' + mealId); },
-            (error) => {},
-            async () => {
-                const modal = await this.modalController.create({
-                  component: ModalPage,
-                  cssClass: 'my-modal',
-                  componentProps: {
-                    mealLabel: this.mealLabel
-                  }
-                });
-                return await modal.present();
-        });
+  addToCart(mealId, slidingItem: IonItemSliding) {
+  this.isModalOpened = true;
+  slidingItem.close();
+  console.log(mealId);
+  this.mealsService.findOneMeal(mealId)
+      .subscribe(
+          async meal => { this.mealLabel = meal.label; localStorage.setItem('plat_' + mealId, meal.label + ' ' + mealId); },
+          (error) => {},
+          async () => {
+              const modal = await this.modalController.create({
+                component: ModalPage,
+                cssClass: 'my-modal',
+                componentProps: {
+                  mealLabel: this.mealLabel
+                }
+              });
+              return await modal.present();
+      });
   }
 
   verifChecked() {

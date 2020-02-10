@@ -26,6 +26,8 @@ export class OrderPage implements OnInit {
   userId;
   isFiltered;
 
+  isModalOpened = false;
+
   @Input() hello;
   constructor(
       private orderService: OrderService,
@@ -50,9 +52,11 @@ export class OrderPage implements OnInit {
   ionViewWillEnter() {
       this.allOrders();
   }
-  ionViewWillLeave() {
-      console.log('leavvvvvvvvvvvve');
-  }
+    ionViewWillLeave(){
+        // permet de fermer le modal en quittant un view s'il est ouvert
+        if(this.isModalOpened)
+        this.modalController.dismiss();
+    }
 
   getOrder() {
     this.orderService.getOrder(this.inputOrderId)
@@ -119,6 +123,7 @@ export class OrderPage implements OnInit {
   }
 
   async openFilterModal(buttonName) {
+      this.isModalOpened = true;
       if (buttonName === 'entre_dates') {
           this.btnName = 'entre_dates';
       } else if (buttonName === 'par_utilisateur') {

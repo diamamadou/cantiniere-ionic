@@ -3,6 +3,7 @@ import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {catchError, shareReplay, tap} from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class CreditService {
   credit(id,amount): Observable<any> {
     const montant = "amount="+amount;
     console.log(montant);
-    const url = 'http://localhost:8080/lunchtime/user/credit/'+id+'?'+montant;
+    const url = environment.apiUrl + '/user/credit/'+id+'?'+montant;
     return this.http.post(url, {responseType: 'json'})
      .pipe(
        tap( credit => {
@@ -24,7 +25,7 @@ export class CreditService {
   }
 
   // delete(id): Observable<any> {
-  //   const url = 'http://localhost:8080/lunchtime/user/delete/'+id;
+  //   const url = environment.apiUrl + '/user/delete/'+id;
   //   return this.http.delete(url, {responseType: 'json'})
   //    .pipe(
   //      tap( credit => {

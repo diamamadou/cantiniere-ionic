@@ -69,10 +69,10 @@
   </ion-grid>
 
   <div class="ion-text-center" *ngIf="order?.status === 0">
-    <ion-button (click)="cancelOrder(order?.id)">
+    <ion-button (click)="confirmCancelAlert(order?.id)">
       Annuler
     </ion-button>
-    <ion-button *ngIf="cantiniere && order?.user.wallet >= computedPrice && order?.status === 0" (click)="deliveryAndPay(order?.id, -1)">
+    <ion-button *ngIf="cantiniere && order?.user.wallet >= computedPrice && order?.status === 0" (click)="confirmDeliverAndPayAlert(order?.id, -1)">
       Livrer
     </ion-button>
     <ion-button (click)="openUpdateOrderModal()">
