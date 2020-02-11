@@ -29,15 +29,15 @@ export class CartPage implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     const userInfos = this.authService.getUserInfo(this.authService.getToken());
     if (userInfos) {
       this.userId = userInfos.user.id;
     } else {
       console.log('Vous n\'ètes pas connectés');
     }
-  }
-
-  ionViewWillEnter() {
     this.showMealCart();
     this.showMenuCart();
   }

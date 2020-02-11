@@ -38,8 +38,8 @@ export class MenuService {
 
 
   find(menuId): Observable<any> {
-    const urlFind = environment.apiUrl + '/menu/find'+"/" +menuId;
-    return this.http.get(urlFind, {responseType: 'json'})
+    const url = environment.apiUrl + "/menu/find/" + menuId;
+    return this.http.get(url, {responseType: 'json'})
      .pipe(
        tap( menu => {
          ;
@@ -85,13 +85,11 @@ export class MenuService {
   }
 
 
-  updateMenu(menuId): Observable<any> {
-    const deleteUrl = '"http://localhost:8080/lunchtime/menu/update' + "/" +menuId;
-    return this.http.patch(deleteUrl,{responseType: 'json' })
+  updateMenu(menu, menuId): Observable<any> {
+    const url = environment.apiUrl + "/menu/update/" + menuId;
+    return this.http.patch(url, menu,{responseType: 'json' })
       .pipe(
-        tap(menu => {
-          ;
-        }),
+        tap(menu => {}),
         catchError(this.handleError<any>('update')),
       );
   }

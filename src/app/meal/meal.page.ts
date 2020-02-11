@@ -30,8 +30,13 @@ export class MealPage implements OnInit {
   mealLabel;
   checkedmeal = false;
   isModalOpened = false;
+  isLunchLady;
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
+    this.isLunchLady = this.authService.getUserInfo(this.authService.getToken()).user.isLunchLady;
     this.getAllForToday();
   }
 

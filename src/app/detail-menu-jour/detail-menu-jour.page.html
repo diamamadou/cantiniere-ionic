@@ -4,23 +4,6 @@
   </ion-toolbar>
 </ion-header>
 
-<!-- <ion-content>
-
-    <ion-list>
-        <ion-item *ngFor="let plat of mealDay" class="d-flex align-content-center p-1">>
-            <ion-item></ion-item>
-            <h6>{{plat?.label}}</h6>
-            <ion-item>
-                <p class="small">  <img src="http://localhost:8080/lunchtime/{{plat?.image}}" /> </p>
-                <ion-item></ion-item>
-                <button class="w-25 h-25 ml-1">Prix: {{plat?.priceDF}}</button>
-            </ion-item>          
-        </ion-item>
-       <ion-button class="float-center font-weight-bold" (click)="addToCart(menuId, null)">Ajouter au panier</ion-button>
-    </ion-list>
-
-</ion-content> -->
-
 <ion-content>
   <ion-grid class="ion-text-center">
     <ion-row>
@@ -30,7 +13,8 @@
             <ion-card-title>{{meal?.label}}</ion-card-title>
             <ion-card-subtitle>Prix {{meal?.priceDF}} €</ion-card-subtitle>
           </ion-card-header>
-          <ion-img src="{{apiUrl}}/{{meal?.image}}"></ion-img>
+          <ion-img *ngIf="meal?.image?.includes('data')" [src]="meal?.image"></ion-img>
+          <ion-img *ngIf="meal?.image?.includes('img/meal')" src="{{apiUrl}}/{{meal?.image}}"></ion-img>
         </ion-card>
       </ion-col>
     </ion-row>
