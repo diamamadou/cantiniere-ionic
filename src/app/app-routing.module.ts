@@ -52,6 +52,10 @@ const routes: Routes = [
     path: 'cart',
     loadChildren: () => import('./cart/cart.module').then(m => m.CartPageModule)
   },
+  {
+    path: 'update-menu/:id',
+    loadChildren: () => import('./update-menu/update-menu.module').then( m => m.UpdateMenuPageModule)
+  },
 ];
 
 @NgModule({

@@ -15,7 +15,7 @@
   </ion-col>
 </ion-row>
 <ion-content>
-  <ion-fab slot="fixed" vertical="top" horizontal="center" #fab>
+  <ion-fab *ngIf="isLunchLady" slot="fixed" vertical="top" horizontal="center" #fab>
     <ion-fab-button color="danger" (click)="verifChecked()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
@@ -37,7 +37,7 @@
         </div>
       </ion-item>
 
-      <ion-item-options side='start'>
+      <ion-item-options side='start' *ngIf="isLunchLady">
         <ion-item-option color="secondary" (click)="onEdit(plat.id,slidingItem)">
           <ion-icon name="create" slot="icon-only"></ion-icon>
         </ion-item-option>

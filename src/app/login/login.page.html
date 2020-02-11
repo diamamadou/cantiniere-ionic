@@ -35,7 +35,8 @@
     <ion-text>La Canitnière</ion-text><br><br>
 
     <ion-text>Vous ètes connectés en tant que</ion-text><br>
-    <ion-text>{{userInfos?.user.name}} {{userInfos?.user.firstname}}</ion-text><br>
+    <ion-text>{{userInfos?.user.name}} {{userInfos?.user?.firstname}}</ion-text><br>
+    <ion-text>porte-feuille: {{userInfos?.user?.wallet}} €</ion-text><br>
     <ion-button (click)="logOut()">Se déconnecter</ion-button>
   </ion-content>
 </ng-container>

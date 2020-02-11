@@ -20,7 +20,7 @@ export class TodaysMenuPage implements OnInit {
   userInfo;
   menuLabel;
   apiUrl = environment.apiUrl;
-
+  isLunchLady;
   isModalOpened = false;
 
   constructor(private menuService: MenuService, private route: ActivatedRoute, private router: Router, private authService: AuthService, private modalController: ModalController) {
@@ -29,6 +29,11 @@ export class TodaysMenuPage implements OnInit {
   }
 
   ngOnInit() {
+    //this.getAllForToday();
+  }
+
+  ionViewWillEnter() {
+    this.isLunchLady = this.authService.getUserInfo(this.authService.getToken()).user.isLunchLady;
     this.getAllForToday();
   }
 
@@ -40,7 +45,7 @@ export class TodaysMenuPage implements OnInit {
 
   getAllForToday() {
     this.menuService.findAllAvailableForToday()
-      .subscribe(data => {
+      .subscribe(data => {console.log(data[2]);
       this.todayMenu = data; console.log('Les menus du jour sont : ');
         data.forEach(element => { console.log(element);
           // this.todayMeal = element.meals;
@@ -82,8 +87,8 @@ export class TodaysMenuPage implements OnInit {
   }
 
 
-  updateMenu(menuId) {
-    this.menuService.updateMenu(menuId)
+  updateMenu(menu, menuId) {
+    this.menuService.updateMenu(menu, menuId)
       .subscribe(data => this.updateMenu = data);
     this.userInfo = this.authService.getUserInfo(this.authService.getToken());
 
@@ -107,6 +112,11 @@ export class TodaysMenuPage implements OnInit {
   .subscribe(data => this.findforweek = data);
    this.userInfo = this.authService.getUserInfo(this.authService.getToken());
    }
+
+  onEdit(menuId: number, slidingItem: IonItemSliding) {
+    slidingItem.close();
+    this.router.navigate(['/update-menu', menuId]);
+  }
 
   addToCart(menuId, slidingItem: IonItemSliding) {
     this.isModalOpened = true;

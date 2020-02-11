@@ -1,68 +1,60 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MenuService } from '../services/menu.service';
 import { MealService } from '../services/meal.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx'
-import { IngredientsService } from '../ingredients.service';
 import * as moment from 'moment';
 import { AlertController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-edit-meal',
-  templateUrl: './edit-meal.page.html',
-  styleUrls: ['./edit-meal.page.scss'],
+  selector: 'app-update-menu',
+  templateUrl: './update-menu.page.html',
+  styleUrls: ['./update-menu.page.scss'],
 })
-export class EditMealPage implements OnInit {
+export class UpdateMenuPage implements OnInit {
+
+  menuId;
+  menu;
+  meals;
+  apiUrl = environment.apiUrl;
+  capturedPictureUrl: string;
+  ingred;
+  availableForWeeks;
+  menuImage;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private serviceMeal: MealService,
-    private ingredientService: IngredientsService,
+    private menuService: MenuService,
+    private mealService: MealService,
     private camera: Camera,
     private alertController: AlertController
   ) { }
 
-  mealId;
-  meal;
-  apiUrl = environment.apiUrl;
-  capturedPictureUrl: string;
-  ingredientList;
-  ingred;
-  availableForWeeks;
-  mealImage;
-
   ngOnInit() {
     this.route.params
-      .subscribe(params => { this.mealId = params.IdPlat; console.log(params.IdPlat); });
-    
-    this.getOneMeal(this.mealId);
-    this.getIngredients();
+      .subscribe(params => { this.menuId = params.id; });
+    this.getMenu(this.menuId);
+    this.getMeals();
   }
 
-  getOneMeal(mealId) {
-    this.serviceMeal.findOneMeal(mealId)
-      .subscribe(
-        meal => { console.log(meal); this.meal = meal; this.mealImage = meal.image},
-        (err) => console.log('Votre plat n\'a pas été trouvé !'),
-      );
+  getMenu(menuId) {
+    this.menuService.find(menuId)
+      .subscribe(data => {this.menu = data; this.menuImage = data.image})
   }
 
-  getIngredients() {
-    this.ingredientService.getIngredients()
-      .subscribe(data => {this.ingredientList = data})
+  getMeals() {
+    this.mealService.findAllAvailableForToday()
+      .subscribe(data => {this.meals = data})
   }
 
   update(form) {
     const weeknumber = moment(form.form.value.availableForWeeks, "YYYYMMDD").week();
     form.form.value.availableForWeeks = [weeknumber];
     console.log(form.form.value);
-    this.serviceMeal.updateMeal(form.form.value, this.mealId)
-      .subscribe(data => {
-        if(this.mealImage.startsWith('data') || this.mealImage.startsWith('img/meal')) {
-          this.router.navigate(['/meal']);
-        }
-        
-      });
+    this.menuService.updateMenu(form.form.value, this.menuId)
+      .subscribe(data => { this.confirmedAlert(); });
   }
 
   compareWithFn = (o1, o2) => {
@@ -81,16 +73,20 @@ export class EditMealPage implements OnInit {
     this.camera.getPicture(this.cameraOptions).then((imageData) => {
       let bas64Image = 'data:image/jpeg;base64, ' + imageData;
       this.capturedPictureUrl = bas64Image;
-      this.mealImage = this.capturedPictureUrl;
+      this.menuImage = this.capturedPictureUrl;
     }, (err) => {
       console.log(err)
     });
   }
 
-  async confirmAlert(mealObject) {
+  cancel() {
+    this.router.navigate(['/todays-menu']);
+  }
+
+  async confirmAlert(menuObject) {
     const alert = await this.alertController.create({
       header: 'Confirmation',
-      message: 'Voulez-vous confirmer la modification de ce plat ?',
+      message: 'Voulez-vous confirmer la modification de ce menu ?',
       buttons: [
         {
           text: 'Annuler',
@@ -102,7 +98,7 @@ export class EditMealPage implements OnInit {
         }, {
           text: 'Confirmer',
           cssClass: 'success',
-          handler: () => { this.update(mealObject)
+          handler: () => { this.update(menuObject)
           }
         }
       ]
@@ -113,14 +109,14 @@ export class EditMealPage implements OnInit {
   async confirmedAlert() {
     const alert = await this.alertController.create({
       header: 'Confirmé',
-      message: 'Ce plat a été modifié ',
+      message: 'Ce menu a été modifié ',
       buttons: [
         {
           text: 'OK',
           cssClass: 'danger',
           handler: () => {
-            if(this.mealImage.startsWith('data') || this.mealImage.startsWith('img/meal')) {
-              this.router.navigate(['/meal']);
+            if(this.menuImage.startsWith('data') || this.menuImage.startsWith('img/meal')) {
+              this.router.navigate(['/todays-menu']);
             }
           }
         }
